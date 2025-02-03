@@ -4,7 +4,7 @@ import MasterLayout from "../layout/masterlayout"
 
 const Privateroutes = () => {
     // const { TOKEN } = constants
-    const isAuthenticated = localStorage.getItem("user")
+    const isAuthenticated = localStorage.getItem("token")
     if (!isAuthenticated) {
         return <Navigate to="/login" replace />
     }

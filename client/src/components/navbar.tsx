@@ -2,12 +2,12 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-    const user = localStorage.getItem("user")
+    const token = localStorage.getItem("token")
 
     const navigate = useNavigate()
 
     const handleLogout = () => {
-        localStorage.removeItem("user")
+        localStorage.removeItem("token")
         navigate("/home")
     }
 
@@ -28,7 +28,7 @@ const Navbar = () => {
                     Browse Hosts
                 </Button>
                 {
-                    user && (
+                    token && (
                         <Button
                             className="uppercase"
                             variant="text"
@@ -39,7 +39,7 @@ const Navbar = () => {
                     )
                 }
                 {
-                    user && (
+                    token && (
                         <Button
                             className="uppercase"
                             variant="outlined"
@@ -50,7 +50,7 @@ const Navbar = () => {
                     )
                 }
                 {
-                    !user &&
+                    !token &&
                     (
                         <Button
                             className="uppercase"
@@ -62,7 +62,7 @@ const Navbar = () => {
                     )
                 }
                 {
-                    user && (
+                    token && (
                         <Button
                             className="uppercase"
                             variant="contained"

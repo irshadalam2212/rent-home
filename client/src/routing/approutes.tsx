@@ -2,12 +2,23 @@ import { FC } from 'react'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import App from '../App'
 import Home from '../pages/home'
-import Login from '../components/login'
+import Login from '../modules/login/components/login'
 import Privateroutes from './privateroutes'
-import SignUp from '../components/signup'
+import SignUp from '../modules/signup/components/signup'
 import Addlisting from '../pages/addlisting'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { Dev_Var } from '../../environment'
+import { environments } from '../models/constants'
 const AppRoutes: FC = () => {
   
+    const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus:
+              Dev_Var === environments?.development ? false : true,
+          },
+        },
+      });
 
     const router = createBrowserRouter([
         {
@@ -57,10 +68,10 @@ const AppRoutes: FC = () => {
     ])
 
     return (
-        // <QueryClientProvider client={queryClient} contextSharing={true}>
-        // <ReactQueryDevtools initialIsOpen={false} position={"bottom-right"} />
+        <QueryClientProvider client={queryClient} contextSharing={true}>
+        {/* <ReactQueryDevtools initialIsOpen={false} position={"bottom-right"} /> */}
         <RouterProvider router={router} />
-        // </QueryClientProvider>
+        </QueryClientProvider>
     );
 };
 
