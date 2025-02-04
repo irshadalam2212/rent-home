@@ -1,6 +1,5 @@
 import { Box, Button, CardContent, CardMedia, Typography } from "@mui/material"
-import HeroImg from "../assets/hero.png"
-
+import HeroImg from "../../../assets/hero.png"
 
 const HeroSection = () => {
     return (

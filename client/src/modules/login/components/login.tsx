@@ -2,13 +2,12 @@ import { Button, TextField } from "@mui/material"
 import { Controller, useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
 import { usePostFetchUser } from "../hooks/login.queries"
-import { useState } from "react"
 import { IFetchUserPayload } from "../models/login.interface"
+import Loader from "../../../components/shared/loader"
 
 
 const Login = () => {
     const navigate = useNavigate()
-    const [response, setResponse] = useState<any>();
     const { mutateAsync: PostFetchUser, isLoading: PostFetchUserIsLoading } = usePostFetchUser();
 
     const { control, handleSubmit } = useForm<IFetchUserPayload>({
@@ -26,12 +25,11 @@ const Login = () => {
         }
         try {
             const response = await PostFetchUser(payload)
-            response?.data?.user ? setResponse(response?.data?.user) : {}
+            localStorage.setItem("token", response?.data?.accessToken)
+            PostFetchUserIsLoading ? <Loader /> : navigate("/home")
         } catch (error) {
             console.log(error)
         }
-        localStorage.setItem("token", response?.accessToken)
-        navigate("/home")
     }
 
     return (

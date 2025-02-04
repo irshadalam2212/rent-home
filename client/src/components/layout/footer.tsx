@@ -4,7 +4,7 @@ const Footer = () => {
     return (
         <div className="flex flex-col gap-5 mt-8">
             <div className="flex justify-between items-center py-3 bg-white">
-                <h1 className="text-xl text-[#3B85DB]">Rent<span className="text-[#AEAEB5]">.live</span></h1>
+                <h1 className="text-xl text-[#3B85DB]">Easy<span className="text-[#AEAEB5]">.home</span></h1>
                 <Button
                     className="uppercase"
                     variant="text">

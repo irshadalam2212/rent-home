@@ -1,6 +1,6 @@
 import { Card, CardActionArea, CardContent, CardMedia, Chip, TextField, Typography } from "@mui/material"
-import Heading from "./heading"
-import { houseCategory, houseType, housesForRent } from "../data"
+import Heading from "../../../components/shared/heading"
+import { houseCategory, houseType, housesForRent } from "../../../data"
 
 const Listing = () => {
     return (

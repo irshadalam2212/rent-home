@@ -1,6 +1,8 @@
-import Heading from "./heading"
-import { trendingLocations } from "../data"
+
+import Heading from "../../../components/shared/heading"
+
 import { Button, Card, CardActionArea, CardMedia, Stack, Typography } from "@mui/material"
+import { trendingLocations } from "../../../data"
 
 const Trendings = () => {
     return (

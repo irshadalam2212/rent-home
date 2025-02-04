@@ -17,7 +17,7 @@ const Navbar = () => {
                 className="text-xl text-[#3B85DB] cursor-pointer"
                 onClick={() => navigate('/home')}
             >
-                Rent<span className="text-[#AEAEB5]">.live</span>
+                Easy<span className="text-[#AEAEB5]">.home</span>
             </h1>
             <div className='flex gap-8 items-center'>
                 <Button

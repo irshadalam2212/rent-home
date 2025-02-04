@@ -1,8 +1,9 @@
-import Footer from "../components/footer"
-import HeroSection from "../components/hero"
-import Listing from "../components/listing"
-import Navbar from "../components/navbar"
-import Trendings from "../components/trending"
+import Footer from "../components/layout/footer"
+import HeroSection from "../modules/home/components/hero"
+import Navbar from "../components/layout/navbar"
+import Listing from "../modules/home/components/listing"
+import Trendings from "../modules/home/components/trending"
+
 
 const Home = () => {
     return (

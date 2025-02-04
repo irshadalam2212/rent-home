@@ -1,5 +1,5 @@
 import { Button, TextField } from "@mui/material"
-import Heading from "../components/heading"
+import Heading from "../components/shared/heading"
 
 const Addlisting = () => {
     return (
