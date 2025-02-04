@@ -9,6 +9,7 @@ import Addlisting from '../pages/addlisting'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Dev_Var } from '../../environment'
 import { environments } from '../models/constants'
+import ListingDetails from '../pages/listingdetails'
 const AppRoutes: FC = () => {
   
     const queryClient = new QueryClient({
@@ -48,6 +49,10 @@ const AppRoutes: FC = () => {
                         {
                             path: "add-listing",
                             element: <Addlisting />
+                        },
+                        {
+                            path: "listing-details",
+                            element: <ListingDetails />
                         },
                         {
                             path: "my-profile",

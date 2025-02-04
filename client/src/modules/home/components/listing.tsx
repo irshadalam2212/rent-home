@@ -1,8 +1,12 @@
 import { Card, CardActionArea, CardContent, CardMedia, Chip, TextField, Typography } from "@mui/material"
 import Heading from "../../../components/shared/heading"
 import { houseCategory, houseType, housesForRent } from "../../../data"
+import { useNavigate } from "react-router-dom"
 
 const Listing = () => {
+    const navigate = useNavigate()
+    const token = localStorage.getItem("token")
+
     return (
         <div className="flex flex-col gap-5">
             <Heading>
@@ -40,7 +44,9 @@ const Listing = () => {
                     {
                         housesForRent.map((home) => (
                             <Card sx={{ maxWidth: 400 }} className="relative">
-                                <CardActionArea>
+                                <CardActionArea
+                                onClick={() => token ? navigate('/listing-details') : "/login"}
+                                >
                                     <CardMedia
                                     sx={{height: 220}}
                                         component="img"
