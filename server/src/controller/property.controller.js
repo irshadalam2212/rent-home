@@ -2,6 +2,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { Property } from "../models/property.model.js"
+import { ApiResponse } from "../utils/apiResponse.js";
 
 const createProperty = asyncHandler(async (req, res) => {
     // get all details from front-end
@@ -9,9 +10,6 @@ const createProperty = asyncHandler(async (req, res) => {
         const { propertyName, rooms, propertyType, rent, location, propertyImage, description, host } = req.body;
 
         // check if all required fields are provided
-        console.log({ propertyName, rooms, propertyType, rent, location })
-        console.log(req.body)
-
         if ([propertyName, rooms, propertyType, rent, location].some(field => field?.trim() === "")) {
             // return res.status(400).json({ status: 400, message: "All fields are required" });
             throw new ApiError(400, "Please fill all the required fields");
@@ -42,17 +40,39 @@ const createProperty = asyncHandler(async (req, res) => {
             propertyImage: propertyImageUrl
         })
 
-        res.status(201).json({
-            success: true,
-            message: "Property created successfully",
-            data: property
-        });
+        // res.status(201).json({
+        //     success: true,
+        //     message: "Property created successfully",
+        //     data: property
+        // });
+        if (property) {
+            return res.status(200).json(
+                new ApiResponse(201, property, "Property created successfully")
+            )
+        }
     } catch (error) {
         console.error("Error creating property:", error)
         return new ApiError(500, "Internal server error while creating property")
     }
 })
 
+const getAllProperty = asyncHandler(async (req, res) => {
+    try {
+        const property = await Property.find({})
+        if (property) {
+            return res.status(200).json(
+                new ApiResponse(200, property, "All properties fetched successfully")
+            )
+        } else {
+            return new ApiError(404, "No properties found");
+        }
+    } catch (error) {
+        console.error("Error fetching properties:", error);
+        return new ApiError(500, "Internal server error while fetching properties");
+    }
+})
+
 export {
-    createProperty
+    createProperty,
+    getAllProperty
 }

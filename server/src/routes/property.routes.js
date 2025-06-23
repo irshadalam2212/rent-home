@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createProperty } from "../controller/property.controller.js";
+import { createProperty, getAllProperty } from "../controller/property.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
@@ -12,5 +12,8 @@ router.route("/property/create-property")
         }
     ]),
         createProperty);
+
+router.route("/property/all-properties")
+    .get(getAllProperty)
 
 export default router

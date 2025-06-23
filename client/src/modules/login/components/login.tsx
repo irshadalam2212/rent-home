@@ -18,7 +18,7 @@ const Login = () => {
     });
 
     const onSignIn = async (values: any) => {
-        console.log(values, "Value")
+        // console.log(values, "Value")
         const payload = {
             email: values.email,
             password: values.password

@@ -1,5 +1,5 @@
 import { useMutation } from "react-query";
-import { RegisterUser } from "../services/signup.service";
+import { RegisterUser } from "../services/signup.services";
 
 
 export const useRegisteruser = () => {
