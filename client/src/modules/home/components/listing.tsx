@@ -2,10 +2,15 @@ import { Card, CardActionArea, CardContent, CardMedia, Chip, TextField, Typograp
 import Heading from "../../../components/shared/heading"
 import { houseCategory, houseType, housesForRent } from "../../../data"
 import { useNavigate } from "react-router-dom"
+import { useGetAllProperty } from "../../property/hooks/property.queries"
 
 const Listing = () => {
     const navigate = useNavigate()
     const token = localStorage.getItem("token")
+
+    const { data: GetAllProperty, isLoading: GetAllPropertyisLoading } = useGetAllProperty()
+
+    console.log(GetAllProperty, "GetAllProperty")
 
     return (
         <div className="flex flex-col gap-5">
@@ -39,10 +44,10 @@ const Listing = () => {
                         }
                     </div>
                 </div>
-                {/* homes  */}
+                {/* Properties listing  */}
                 <div className="grid grid-cols-3 gap-5">
                     {
-                        housesForRent.map((home) => (
+                        GetAllProperty?.data?.map((property) => (
                             <Card sx={{ maxWidth: 400 }} className="relative">
                                 <CardActionArea
                                 onClick={() => token ? navigate('/listing-details') : "/login"}
@@ -50,20 +55,20 @@ const Listing = () => {
                                     <CardMedia
                                     sx={{height: 220}}
                                         component="img"
-                                        image={home.image}
-                                        alt={home.nameOfHouse}
+                                        image={property?.propertyImage}
+                                        alt={property?.propertyName}
                                     />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="div">
-                                            {home.nameOfHouse}
+                                            {property?.propertyName}
                                         </Typography>
                                         <Typography variant="body2" sx={{ color: '#212529', fontSize: "16px" }}>
-                                            {home.address}
+                                            {property.location}
                                         </Typography>
                                         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                            {home.rent}
+                                            {property.rent}
                                         </Typography>
-                                        <Chip sx={{color: "#3b85db", backgroundColor: "white"}} label={home.type} variant="outlined" className="absolute top-3 right-2"/>
+                                        <Chip sx={{color: "#3b85db", backgroundColor: "white"}} label={property.propertyType} variant="outlined" className="absolute top-3 right-2"/>
                                     </CardContent>
                                 </CardActionArea>
                             </Card>
