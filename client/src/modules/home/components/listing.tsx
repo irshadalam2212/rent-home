@@ -1,6 +1,6 @@
-import { Card, CardActionArea, CardContent, CardMedia, Chip, TextField, Typography } from "@mui/material"
+import { capitalize, Card, CardActionArea, CardContent, CardMedia, Chip, TextField, Typography } from "@mui/material"
 import Heading from "../../../components/shared/heading"
-import { houseCategory, houseType, housesForRent } from "../../../data"
+import { houseCategory, houseType } from "../../../data"
 import { useNavigate } from "react-router-dom"
 import { useGetAllProperty } from "../../property/hooks/property.queries"
 
@@ -8,7 +8,7 @@ const Listing = () => {
     const navigate = useNavigate()
     const token = localStorage.getItem("token")
 
-    const { data: GetAllProperty, isLoading: GetAllPropertyisLoading } = useGetAllProperty()
+    const { data: GetAllProperty } = useGetAllProperty()
 
     console.log(GetAllProperty, "GetAllProperty")
 
@@ -20,7 +20,7 @@ const Listing = () => {
             <TextField id="outlined-search" label="Search property" type="search" size="small" />
             <div className="flex justify-between">
                 {/* filter */}
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 ">
                     <h4 className="text-base font-normal text-[#616161]">Filter By Bedrooms</h4>
                     {/* filter by bedrooms  */}
                     <div className="flex flex-col gap-2">
@@ -45,32 +45,33 @@ const Listing = () => {
                     </div>
                 </div>
                 {/* Properties listing  */}
-                <div className="grid grid-cols-3 gap-5">
+                <div className="grid grid-cols-2 gap-5 ">
                     {
                         GetAllProperty?.data?.map((property) => (
                             <Card sx={{ maxWidth: 400 }} className="relative">
                                 <CardActionArea
-                                onClick={() => token ? navigate('/listing-details') : "/login"}
+                                    onClick={() => token ? navigate('/listing-details') : "/login"}
                                 >
                                     <CardMedia
-                                    sx={{height: 220}}
+                                        sx={{ height: 220 }}
                                         component="img"
                                         image={property?.propertyImage}
                                         alt={property?.propertyName}
                                     />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="div">
-                                            {property?.propertyName}
+                                            {capitalize(property?.propertyName)}
                                         </Typography>
                                         <Typography variant="body2" sx={{ color: '#212529', fontSize: "16px" }}>
-                                            {property.location}
+                                            {capitalize(property.location)}
                                         </Typography>
                                         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                                             {property.rent}
                                         </Typography>
-                                        <Chip sx={{color: "#3b85db", backgroundColor: "white"}} label={property.propertyType} variant="outlined" className="absolute top-3 right-2"/>
+                                        <Chip sx={{ color: "#3b85db", backgroundColor: "white" }} label={capitalize(property.propertyType)} variant="outlined" className="absolute top-3 right-2" />
                                     </CardContent>
                                 </CardActionArea>
+                                <p>{property?.description}</p>
                             </Card>
                         ))
                     }

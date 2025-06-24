@@ -16,7 +16,7 @@ export interface IGetPropertyValue {
     rent: number
     location: string
     description: string
-    propertyImage: any
+    propertyImage: File 
 }
 
 

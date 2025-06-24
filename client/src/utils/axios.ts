@@ -17,18 +17,24 @@ export const AxPost = async (
   data: any,
   headers?: AxiosHeaders
 ): Promise<any> => {
-  const defaultHeaders = Header();
+  const isFormData = data instanceof FormData;
+
   const combinedHeaders = new AxiosHeaders();
 
-  // Add default headers
-  Object.entries(defaultHeaders).forEach(([key, value]) => {
-    combinedHeaders.set(key, value);
-  });
+  if (!isFormData) {
+    // Only apply default headers when not sending FormData
+    const defaultHeaders = Header();
+    Object.entries(defaultHeaders).forEach(([key, value]) => {
+      combinedHeaders.set(key, value);
+    });
+  }
 
+  // Apply custom headers unless it's a FormData with Content-Type
   if (headers) {
     Object.entries(headers).forEach(([key, value]) => {
-      if (key.includes("Content-Type")) {
-        combinedHeaders.delete("Content-Type");
+      if (key.toLowerCase() === "content-type" && isFormData) {
+        // Skip setting content-type for FormData
+        return;
       }
 
       combinedHeaders.set(key, value);
@@ -37,10 +43,11 @@ export const AxPost = async (
 
   const config = {
     headers: combinedHeaders,
-    // headers: defaultHeaders,
   };
+
   return await axios.post(`${URL}${endpoint}`, data, config);
 };
+
 
 //Delete request
 export const AxDelete = async (URL: string, endpoint: string): Promise<any> => {
