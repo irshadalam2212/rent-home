@@ -19,7 +19,7 @@ import userRouter from './routes/user.routes.js'
 import propertyRouter from './routes/property.routes.js'
 
 //routes declaration
-app.use("/api/v1/", userRouter)
+app.use("/api/v1", userRouter)
 app.use("/api/v1", propertyRouter)
 
 export { app }

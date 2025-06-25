@@ -116,8 +116,37 @@ const UpdateProperty = asyncHandler(async (req, res) => {
     }
 })
 
+const getPropertyById = asyncHandler(async (req, res) => {
+    const propertyId = req.params.propertyId; 
+    if (!propertyId) {
+        return res.status(400).json(
+            new ApiError(400, "Property ID is required")
+        );
+    }
+
+    try {
+        const property = await Property.findById(propertyId);
+        if (!property) {
+            return res.status(404).json(
+                new ApiError(404, "Property not found")
+            );
+        }
+
+        return res.status(200).json(
+            new ApiResponse(200, property, "Property fetched successfully")
+        );
+    } catch (error) {
+        console.error("Error fetching property by ID:", error);
+        return res.status(500).json(
+            new ApiError(500, "Internal server error while fetching property by ID")
+        );
+    }
+});
+
+
 export {
     createProperty,
     getAllProperty,
-    UpdateProperty
+    UpdateProperty,
+    getPropertyById
 }

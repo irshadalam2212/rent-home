@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { createProperty, getAllProperty, UpdateProperty } from "../controller/property.controller.js";
+import {
+    createProperty,
+    getAllProperty,
+    getPropertyById,
+    UpdateProperty
+} from "../controller/property.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
@@ -15,6 +20,9 @@ router.route("/property/create-property")
 
 router.route("/property/all-properties")
     .get(getAllProperty)
+
+router.route("/property/:propertyId")
+    .get(getPropertyById)
 
 router.route("/property/update-property/:_id")
     .put(upload.fields([

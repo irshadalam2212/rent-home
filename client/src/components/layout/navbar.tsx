@@ -17,8 +17,14 @@ const Navbar = () => {
                 className="text-xl text-[#3B85DB] cursor-pointer"
                 onClick={() => navigate('/home')}
             >
-                Easy<span className="text-[#AEAEB5]">.home</span>
+                Urban<span className="text-[#AEAEB5]">Lease</span>
             </h1>
+            {/* <img
+                src="/client/public/logo.jpg"
+                alt="Urbanlease Logo"
+                className="w-32 cursor-pointer"
+                onClick={() => navigate('/home')}
+            /> */}
             <div className='flex gap-8 items-center'>
                 <Button
                     className="uppercase"

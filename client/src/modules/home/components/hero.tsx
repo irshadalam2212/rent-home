@@ -17,7 +17,7 @@ const HeroSection = () => {
                             component="div"
                             sx={{ color: 'black', fontSize: "16px" }}
                         >
-                            Work all over the globe from beautiful homes with wonderful hosts.
+                            Homes, Shops, Spaces — All in One Place
                         </Typography>
                         <Button variant="contained" size="medium">
                             Explore Spaces
