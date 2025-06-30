@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
     createProperty,
+    deletePropertyById,
     getAllProperty,
     getPropertyById,
     getTrendingLocations,
@@ -32,6 +33,9 @@ router.route("/property/update-property/:_id")
             maxCount: 1
         }
     ]), UpdateProperty)
+
+router.route("/property/delete-property/:propertyId")
+    .delete(deletePropertyById)
 
 router.route("/property/trending-location")
     .get(getTrendingLocations);

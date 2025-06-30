@@ -8,7 +8,7 @@ import axios from "axios";
 const createProperty = asyncHandler(async (req, res) => {
     // get all details from front-end
     try {
-        const { propertyName, rooms, propertyType, rent, location, propertyImage, description, host } = req.body;
+        const { propertyName, rooms, propertyType, rent, location, description, host } = req.body;
 
         // check if all required fields are provided
         if ([propertyName, rooms, propertyType, rent, location].some(field => field?.trim() === "")) {
@@ -31,15 +31,15 @@ const createProperty = asyncHandler(async (req, res) => {
         }
 
         const property = await Property.create({
-            propertyName,
-            rooms,
-            propertyType,
-            rent,
-            location,
+            propertyName: propertyName.trim().toLowerCase(),
+            rooms: Number(rooms),
+            propertyType: propertyType.trim().toLowerCase(),
+            rent: Number(rent),
+            location: location.trim().toLowerCase(),
             description,
             host,
-            propertyImage: propertyImageUrl
-        })
+            propertyImage: propertyImageUrl,
+        });
 
         if (property) {
             return res.status(200).json(
@@ -144,6 +144,33 @@ const getPropertyById = asyncHandler(async (req, res) => {
     }
 });
 
+const deletePropertyById = asyncHandler(async (req, res) => {
+    const propertyId = await req.params.propertyId;
+
+    if(!propertyId) {
+        return res.status(400).json(
+            new ApiError(400, "Property ID is required")
+        )
+    }
+
+    try {
+        const property = await Property.findByIdAndDelete(propertyId)
+        if (!property) {
+            return res.status(404).json(
+                new ApiError(404, "Property not found")
+            );
+        }
+        return res.status(200).json(
+            new ApiResponse(200, property, "Property deleted successfully!")
+        );
+    } catch (error) {
+        console.error("Error deleting property:", error);
+        return res.status(500).json(
+            new ApiError(500, "Internal server error while deleting property.")
+        );
+    }
+})
+
 const getTrendingLocations = asyncHandler(async (req, res) => {
     const { latitude, longitude } = req.query;
 
@@ -210,5 +237,6 @@ export {
     getAllProperty,
     UpdateProperty,
     getPropertyById,
-    getTrendingLocations
+    getTrendingLocations,
+    deletePropertyById
 }

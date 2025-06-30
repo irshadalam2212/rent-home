@@ -110,7 +110,7 @@ export const Upload: React.FC<UploadComponentProps> = ({
         onChange={handleFileChange}
         style={{ display: "none" }}
       />
-      <label className="upload-label" htmlFor="fileElem">
+      <label className="upload-label bg-gray-800" htmlFor="fileElem">
         <div className="upload-text">{label}</div>
       </label>
       <div className="image" />

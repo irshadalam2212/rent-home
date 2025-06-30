@@ -1,3 +1,4 @@
+@import "./assets/styles/app.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -46,9 +47,13 @@ body {
   animation: l2 2s linear infinite;
 }
 .loader:before {
-  content:"Loading..."
+  content: "Loading...";
 }
-@keyframes l2 {to{background-size: 100% 3px}}
+@keyframes l2 {
+  to {
+    background-size: 100% 3px;
+  }
+}
 
 @layer base {
   :root {

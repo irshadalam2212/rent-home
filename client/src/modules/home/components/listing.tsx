@@ -3,7 +3,7 @@ import Heading from "../../../components/shared/heading"
 import { houseCategory, houseType } from "../../../data"
 import { useNavigate } from "react-router-dom"
 import { useGetAllProperty } from "../../property/hooks/property.queries"
-import { MdEdit } from "react-icons/md"
+import { MdDelete, MdEdit } from "react-icons/md"
 
 const Listing = () => {
     const navigate = useNavigate()
@@ -15,6 +15,10 @@ const Listing = () => {
         const encodedId = encodeURIComponent(btoa(propertyId));
         navigate(`/edit-listing?propertyId=${encodedId}`);
     };
+
+    const handleDeleteProperty = (propertyId: string) => {
+        console.log(propertyId)
+    }
 
     return (
         <div className="flex flex-col gap-5">
@@ -76,12 +80,22 @@ const Listing = () => {
                                             <Typography variant="h5" component="div">
                                                 {capitalize(property?.propertyName)}
                                             </Typography>
+                                            <div
+                                            className="flex gap-2"
+                                            >
                                             <span
-                                                className="cursor-pointer p-2 rounded-full hover:bg-gray-200 transition-all duration-200"
+                                                className="cursor-pointer p-2 rounded-full hover:bg-gray-200 hover:text-blue-700 transition-all duration-200"
                                                 onClick={() => {handleEditClick(property?._id)}}
                                             >
-                                                <MdEdit />
+                                                <MdEdit size={18} />
                                             </span>
+                                            <span
+                                                className="cursor-pointer p-2 rounded-full hover:bg-gray-200 hover:text-error transition-all duration-200"
+                                                onClick={() => {handleDeleteProperty(property?._id)}}
+                                            >
+                                                <MdDelete size={18} />
+                                            </span>
+                                            </div>
                                         </div>
 
                                         <Typography variant="body2" sx={{ color: '#212529', fontSize: "16px", marginBottom: "8px" }}>

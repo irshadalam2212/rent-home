@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+@import "./components/index.css";
+@import "./template/index.css";
+@import "./vendors/index.css";
+@import "./tailwind/index.css";
+
+/* below code used for making donut center total styling  */
+.apexcharts-datalabel-label {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+.apexcharts-datalabel-value {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+
+/* styling table for permission section */
+.custom-table-wrapper {
+  padding: 1rem;
+}
+
+.custom-table-wrapper .custom-table {
+  /* border: 1px solid #ddd; */
+}
+
+.custom-table-wrapper .custom-table .tr:last-child .td {
+  border-bottom: 0;
+}
+
+.custom-table-wrapper .custom-table .th,
+.custom-table-wrapper .custom-table .td {
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  background-color: #fff;
+  overflow: hidden;
+  position: relative;
+}
+
+.custom-table-wrapper .custom-table .th:last-child,
+.custom-table-wrapper .custom-table .td:last-child {
+  border-right: 0;
+}
+
+.custom-table-wrapper .custom-table .resizer {
+  display: inline-block;
+  width: 5px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translateX(50%);
+  z-index: 1;
+}
+
+.custom-table-wrapper .custom-table .resizer.isResizing {
+  background: red;
+}
+
+.custom-table-wrapper .custom-table.table-sticky {
+  overflow: scroll;
+}
+
+.custom-table-wrapper .custom-table .table-sticky .header,
+.custom-table-wrapper .custom-table .table-sticky .footer {
+  position: sticky;
+  z-index: 1000;
+  width: fit-content;
+}
+
+.custom-table-wrapper .custom-table .table-sticky .header {
+  top: 0;
+  box-shadow: 0px 3px 3px #ccc;
+}
+
+.custom-table-wrapper .custom-table .table-sticky .footer {
+  bottom: 0;
+  box-shadow: 0px -3px 3px #ccc;
+}
+
+.custom-table-wrapper .custom-table .table-sticky .body {
+  position: relative;
+  z-index: 0;
+}
+
+.custom-table-wrapper .custom-table .table-sticky [data-sticky-td] {
+  position: sticky;
+}
+
+.custom-table-wrapper .custom-table .table-sticky [data-sticky-last-left-td] {
+  box-shadow: 2px 0px 3px #ccc;
+}
+
+.custom-table-wrapper .custom-table .table-sticky [data-sticky-first-right-td] {
+  box-shadow: -2px 0px 3px #ccc;
+}
