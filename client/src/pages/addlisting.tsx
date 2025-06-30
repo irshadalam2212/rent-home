@@ -10,23 +10,41 @@ import {
 import Heading from "../components/shared/heading"
 import { Controller, useForm } from "react-hook-form";
 import { IGetPropertyValue } from "../modules/property/models/property.models";
-import { usePostProperty } from "../modules/property/hooks/property.queries";
+import { useGetPropertById, usePostProperty } from "../modules/property/hooks/property.queries";
 // import { useNavigate } from "react-router-dom";
 import { Upload } from "../components/layout/upload/upload";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const Addlisting = () => {
     // const navigate = useNavigate()
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const encodedId = queryParams.get('propertyId');
+    const decodedId = encodedId ? atob(decodeURIComponent(encodedId)) : "";
     const {
         control,
         handleSubmit,
-        // formState: { errors }
+        setValue
     } = useForm<IGetPropertyValue>();
 
     const { mutateAsync: PostProperty, isLoading: PostingPropertyIsLoading } = usePostProperty()
+    const { data: PropertyData, isLoading: PropertyDataIsLoading } = useGetPropertById(decodedId);
+
+
+    useEffect(() => {
+        if(PropertyData?.data && !PropertyDataIsLoading) {
+            setValue("propertyName", PropertyData?.data?.propertyName)
+            setValue("location", PropertyData?.data?.location)
+            setValue("rooms", PropertyData?.data?.rooms)
+            setValue("description", PropertyData?.data?.description)
+            setValue("rent", PropertyData?.data?.rent)
+            // setValue('propertyType', "commercial");
+            // setValue("propertyImage", PropertyData?.data?.propertyImage)
+        }
+    }, [PropertyData])
 
     const handleCreateProperty = async (value: IGetPropertyValue) => {
-        console.log(value, "value")
-        console.log('Is File?', value.propertyImage instanceof File); // Should be true
         const formData = new FormData();
         formData.append("propertyName", value.propertyName ?? "");
         formData.append("rooms", value.rooms?.toString() ?? "");
@@ -37,20 +55,11 @@ const Addlisting = () => {
         formData.append("propertyImage", value.propertyImage);
 
         try {
-            // if (value.propertyImage instanceof File) {
-            // } else {
-            //     console.warn("propertyImage is not a File:", value.propertyImage);
-            // }
-            // // Inspect what's in FormData
-            // for (const [key, val] of formData.entries()) {
-            //     console.log(`${key}:`, val);
-            // }
-
             const response = await PostProperty(formData);
             console.log(response)
             // navigate("/home");
         } catch (error) {
-            console.error("Upload error:", error);
+            console.log("Upload error:", error);
         }
     };
 
@@ -153,24 +162,6 @@ const Addlisting = () => {
                         </FormControl>
                         <FormControl>
                             <FormLabel htmlFor="propertyImage">Upload Image</FormLabel>
-                            {/* <Controller
-                                name="propertyImage"
-                                control={control}
-                                // defaultValue={null}
-                                render={({ field: { onChange, onBlur, ref } }) => (
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                            const file = e.target.files?.[0];
-                                            console.log("Selected file:", file); // ✅ Should show File
-                                            onChange(file); // ✅ this sets it in the form state
-                                        }}
-                                        onBlur={onBlur}
-                                        ref={ref}
-                                    />
-                                )}
-                            /> */}
                             <Controller
                                 name="propertyImage"
                                 control={control}

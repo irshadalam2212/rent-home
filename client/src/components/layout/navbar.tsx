@@ -44,7 +44,7 @@ const Navbar = () => {
                         </Button>
                     )
                 }
-                {
+                {/* {
                     token && (
                         <Button
                             className="uppercase"
@@ -54,7 +54,7 @@ const Navbar = () => {
                             Add Listing
                         </Button>
                     )
-                }
+                } */}
                 {
                     !token &&
                     (

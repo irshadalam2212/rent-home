@@ -1,8 +1,9 @@
-import { capitalize, Card, CardActionArea, CardContent, CardMedia, Chip, TextField, Typography } from "@mui/material"
+import { Button, capitalize, Card, CardActionArea, CardContent, CardMedia, Chip, TextField, Typography } from "@mui/material"
 import Heading from "../../../components/shared/heading"
 import { houseCategory, houseType } from "../../../data"
 import { useNavigate } from "react-router-dom"
 import { useGetAllProperty } from "../../property/hooks/property.queries"
+import { MdEdit } from "react-icons/md"
 
 const Listing = () => {
     const navigate = useNavigate()
@@ -10,7 +11,10 @@ const Listing = () => {
 
     const { data: GetAllProperty } = useGetAllProperty()
 
-    console.log(GetAllProperty, "GetAllProperty")
+    const handleEditClick = (propertyId: string) => {
+        const encodedId = encodeURIComponent(btoa(propertyId));
+        navigate(`/edit-listing?propertyId=${encodedId}`);
+    };
 
     return (
         <div className="flex flex-col gap-5">
@@ -18,6 +22,15 @@ const Listing = () => {
                 Listing
             </Heading>
             <TextField id="outlined-search" label="Search property" type="search" size="small" />
+            <div className="flex justify-end">
+                <Button
+                    className="uppercase"
+                    variant="outlined"
+                    onClick={() => navigate("/add-listing")}
+                >
+                    ➕ Add Listing
+                </Button>
+            </div>
             <div className="flex justify-between">
                 {/* filter */}
                 <div className="flex flex-col gap-3 w-[300px]">
@@ -50,7 +63,7 @@ const Listing = () => {
                         GetAllProperty?.data?.map((property) => (
                             <Card sx={{ maxWidth: 400 }} className="relative">
                                 <CardActionArea
-                                    onClick={() => token ? navigate('/listing-details') : "/login"}
+                                // onClick={() => token ? navigate('/listing-details') : "/login"}
                                 >
                                     <CardMedia
                                         sx={{ height: 220 }}
@@ -59,13 +72,22 @@ const Listing = () => {
                                         alt={property?.propertyName}
                                     />
                                     <CardContent>
-                                        <Typography gutterBottom variant="h5" component="div" sx={{ marginBottom: "10px"}}>
-                                            {capitalize(property?.propertyName)}
-                                        </Typography>
+                                        <div className="flex justify-between items-center mb-2">
+                                            <Typography variant="h5" component="div">
+                                                {capitalize(property?.propertyName)}
+                                            </Typography>
+                                            <span
+                                                className="cursor-pointer p-2 rounded-full hover:bg-gray-200 transition-all duration-200"
+                                                onClick={() => {handleEditClick(property?._id)}}
+                                            >
+                                                <MdEdit />
+                                            </span>
+                                        </div>
+
                                         <Typography variant="body2" sx={{ color: '#212529', fontSize: "16px", marginBottom: "8px" }}>
                                             {capitalize(property.location)}
                                         </Typography>
-                                        <Typography variant="body2" sx={{ color: 'text.secondary', marginBottom: "8px"  }}>
+                                        <Typography variant="body2" sx={{ color: 'text.secondary', marginBottom: "8px" }}>
                                             {property.rent}
                                         </Typography>
                                         <Chip sx={{ color: "#3b85db", backgroundColor: "white" }} label={capitalize(property.propertyType)} variant="outlined" className="absolute top-3 right-2" />

@@ -3,6 +3,7 @@ import {
     createProperty,
     getAllProperty,
     getPropertyById,
+    getTrendingLocations,
     UpdateProperty
 } from "../controller/property.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -31,5 +32,9 @@ router.route("/property/update-property/:_id")
             maxCount: 1
         }
     ]), UpdateProperty)
+
+router.route("/property/trending-location")
+    .get(getTrendingLocations);
+
 
 export default router

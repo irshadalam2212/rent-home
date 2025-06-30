@@ -51,6 +51,10 @@ const AppRoutes: FC = () => {
                             element: <Addlisting />
                         },
                         {
+                            path: "edit-listing",
+                            element: <Addlisting />
+                        },
+                        {
                             path: "listing-details",
                             element: <ListingDetails />
                         },

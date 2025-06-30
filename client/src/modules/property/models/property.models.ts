@@ -35,3 +35,18 @@ export interface IGetPropertiesResponse extends IGetApiResponse {
 
     }[]
 }
+
+export interface IGetPropertyById extends IGetApiResponse {
+    data: {
+        _id: string,
+        propertyName: string,
+        rooms: number,
+        propertyType: string,
+        rent: number,
+        location: string,
+        propertyImage: string,
+        description: string,
+        createdAt: string,
+        updatedAt: string
+    }
+}
