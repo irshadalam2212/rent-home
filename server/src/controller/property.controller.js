@@ -108,7 +108,7 @@ const UpdateProperty = asyncHandler(async (req, res) => {
 
         return res
             .status(200)
-            .json(new ApiResponse(200, updateProperty, "Property details updated successfully"))
+            .json(new ApiResponse(200, [], "Property details updated successfully"))
 
     } catch (error) {
         console.error("Error updating property:", error);

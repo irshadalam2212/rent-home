@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from "react-query";
-import { GetAllProperty, GetPropertyById, PostProperty } from "../services/property.services";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { DeleteProperty, GetAllProperty, GetPropertyById, PostProperty, UpdatePropertyById } from "../services/property.services";
 
 export const usePostProperty = () => {
   return useMutation(PostProperty);
@@ -16,4 +16,17 @@ export const useGetPropertById = (propertyId: string) => {
     refetchOnWindowFocus: false,
     enabled: !!propertyId
   })
+}
+
+export const useDeleteProperty = () => {
+  const queryClient = useQueryClient()
+  return useMutation(DeleteProperty, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('qGetAllProperty')
+    }
+  })
+}
+
+export const useUpdateProperty = () => {
+  return useMutation(UpdatePropertyById)
 }

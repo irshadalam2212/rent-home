@@ -50,3 +50,13 @@ export interface IGetPropertyById extends IGetApiResponse {
         updatedAt: string
     }
 }
+
+export interface IUpdatePropertyPayload {
+    propertName: string;
+    rooms: number;
+    propertyType: string;
+    rent: number;
+    location: string;
+    description: string;
+    propertyImage: any
+}

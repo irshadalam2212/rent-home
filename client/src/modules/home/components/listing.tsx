@@ -2,22 +2,63 @@ import { Button, capitalize, Card, CardActionArea, CardContent, CardMedia, Chip,
 import Heading from "../../../components/shared/heading"
 import { houseCategory, houseType } from "../../../data"
 import { useNavigate } from "react-router-dom"
-import { useGetAllProperty } from "../../property/hooks/property.queries"
+import { useDeleteProperty, useGetAllProperty } from "../../property/hooks/property.queries"
 import { MdDelete, MdEdit } from "react-icons/md"
+import { Notification, toast } from "../../../components/ui"
+import ConfirmDialog from "../../../components/shared/ConfirmDialog"
+import { useState } from "react"
 
 const Listing = () => {
     const navigate = useNavigate()
-    const token = localStorage.getItem("token")
+    const [dialogOpen, setDialogOpen] = useState(false)
+    const [currentPropertyId, setCurrentPropertyId] = useState("")
+    // const token = localStorage.getItem("token")
 
-    const { data: GetAllProperty } = useGetAllProperty()
+    const { data: GetAllProperty, refetch: RefetchAllProperty } = useGetAllProperty()
+    const { mutateAsync: DeleteListing, isLoading: listingDeletionIsLoading } =
+        useDeleteProperty()
+
+    const handleDialogOpen = (propertyId: string) => {
+        setCurrentPropertyId(propertyId)
+        setDialogOpen(true)
+    }
+
+    const handleDialogClose = () => {
+        setDialogOpen(false)
+    }
 
     const handleEditClick = (propertyId: string) => {
-        const encodedId = encodeURIComponent(btoa(propertyId));
+        // const encodedId = encodeURIComponent(btoa(propertyId));
+        const encodedId = (propertyId);
         navigate(`/edit-listing?propertyId=${encodedId}`);
     };
 
-    const handleDeleteProperty = (propertyId: string) => {
-        console.log(propertyId)
+    const handleDeleteProperty = async () => {
+        try {
+            if (currentPropertyId) {
+                const response = await DeleteListing(currentPropertyId)
+                toast.push(
+                    <Notification type="success" duration={3000}>
+                        {response?.message}
+                    </Notification>,
+                    {
+                        placement: "top-end"
+                    }
+                )
+            }
+            RefetchAllProperty()
+            setDialogOpen(false)
+        } catch (error: any) {
+            console.error('Error while deleting user', error)
+            toast.push(
+                <Notification type="danger" duration={5000}>
+                    {error?.message}
+                </Notification>,
+                {
+                    placement: 'top-end',
+                },
+            )
+        }
     }
 
     return (
@@ -81,20 +122,20 @@ const Listing = () => {
                                                 {capitalize(property?.propertyName)}
                                             </Typography>
                                             <div
-                                            className="flex gap-2"
+                                                className="flex gap-2"
                                             >
-                                            <span
-                                                className="cursor-pointer p-2 rounded-full hover:bg-gray-200 hover:text-blue-700 transition-all duration-200"
-                                                onClick={() => {handleEditClick(property?._id)}}
-                                            >
-                                                <MdEdit size={18} />
-                                            </span>
-                                            <span
-                                                className="cursor-pointer p-2 rounded-full hover:bg-gray-200 hover:text-error transition-all duration-200"
-                                                onClick={() => {handleDeleteProperty(property?._id)}}
-                                            >
-                                                <MdDelete size={18} />
-                                            </span>
+                                                <span
+                                                    className="cursor-pointer p-2 rounded-full hover:bg-gray-200 hover:text-blue-700 transition-all duration-200"
+                                                    onClick={() => { handleEditClick(property?._id) }}
+                                                >
+                                                    <MdEdit size={18} />
+                                                </span>
+                                                <span
+                                                    className="cursor-pointer p-2 rounded-full hover:bg-gray-200 hover:text-error transition-all duration-200"
+                                                    onClick={() => { handleDialogOpen(property?._id) }}
+                                                >
+                                                    <MdDelete size={18} />
+                                                </span>
                                             </div>
                                         </div>
 
@@ -114,6 +155,16 @@ const Listing = () => {
                         ))
                     }
                 </div>
+                <ConfirmDialog
+                    isOpen={dialogOpen}
+                    type="danger"
+                    title="Delete property"
+                    onClose={handleDialogClose}
+                    onRequestClose={handleDialogClose}
+                    onCancel={handleDialogClose}
+                    onConfirm={handleDeleteProperty}
+                    confirmButtonDisabled={listingDeletionIsLoading}
+                />
             </div>
         </div>
     )

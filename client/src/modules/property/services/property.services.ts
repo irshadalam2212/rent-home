@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "../../../../environment";
-import { Get, Post } from "../../../utils/methods";
+import { IGetSuccessApiResponse } from "../../../models/shared.model";
+import { Delete, Get, Post, Put } from "../../../utils/methods";
 import { IGetPropertiesResponse, IGetPropertyById } from "../models/property.models";
 import { Endpoints } from "./endpoints";
 
@@ -44,3 +45,28 @@ export const GetPropertyById =
                 })
         })
     }
+
+export const DeleteProperty = (propertyId: string) => {
+    return new Promise<any>((resolve, reject) => {
+        Delete(API_BASE_URL, Endpoints.DeleteProperty, { propertyId: propertyId })
+            .then((response) => {
+                resolve(response.data)
+            })
+            .catch((error) => {
+                reject({ error: true, message: error?.response?.data?.message })
+            })
+    })
+}
+
+export const UpdatePropertyById =
+    async (payload: FormData): Promise<IGetSuccessApiResponse> => {
+        return new Promise((resolve, reject) => {
+            Put(API_BASE_URL, Endpoints.UpdateProperty, payload)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    reject({ error: true, message: error?.response?.data?.message });
+                });
+        });
+    };
