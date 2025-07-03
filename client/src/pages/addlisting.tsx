@@ -13,7 +13,7 @@ const Addlisting = () => {
     // const navigate = useNavigate()
     // const location = useLocation();
     const [searchParams] = useSearchParams();
-    const encodedId = searchParams.get('propertyId');
+    const propertyId = searchParams.get('propertyId');
 
     // const decodedId = encodedId ? atob(decodeURIComponent(encodedId)) : null;
 
@@ -26,7 +26,7 @@ const Addlisting = () => {
     } = useForm<IGetPropertyValue>();
 
     const { mutateAsync: PostProperty, isLoading: PostingPropertyIsLoading } = usePostProperty()
-    const { data: PropertyData, isLoading: PropertyDataIsLoading } = useGetPropertById(encodedId ?? "");
+    const { data: PropertyData, isLoading: PropertyDataIsLoading } = useGetPropertById(propertyId ?? "");
     const { mutateAsync: UpdateProperty, isLoading: UpdateProperyIsLoading } = useUpdateProperty()
 
     useEffect(() => {
@@ -107,13 +107,14 @@ const Addlisting = () => {
 
         // Only append file if it exists
         if (value.propertyImage?.[0]) {
-            formData.append("propertyImage", value.propertyImage[0]);
+            formData.append("propertyImage", value.propertyImage[0].file);
         }
 
         try {
             // Decide API based on `encodedId` presence
-            const response = encodedId
-                ? await UpdateProperty(formData)  // Ensure decoded ID is passed if required
+            const response = propertyId
+                ? await UpdateProperty({ formData, propertyId })
+                // Ensure decoded ID is passed if required
                 : await PostProperty(formData);
 
             toast.push(

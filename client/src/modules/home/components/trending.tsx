@@ -1,8 +1,9 @@
 
 import Heading from "../../../components/shared/heading"
 
-import { Button, Card, CardActionArea, CardMedia, Stack, Typography } from "@mui/material"
+import { Card, CardActionArea, CardMedia, Stack, Typography } from "@mui/material"
 import { trendingLocations } from "../../../data"
+import { Button, Input } from "../../../components/ui"
 
 const Trendings = () => {
     return (
@@ -13,7 +14,7 @@ const Trendings = () => {
             <div className="grid grid-cols-3 gap-3 mb-12">
                 {
                     trendingLocations.map((loc) => (
-                        <Card sx={{ maxWidth: 400 }}>
+                        <Card sx={{ maxWidth: 400 }} >
                             <CardActionArea>
                                 <CardMedia
                                     sx={{ height: 250 }}
@@ -28,7 +29,7 @@ const Trendings = () => {
                                     <Typography variant="body2" sx={{ color: '#212529', fontSize: "16px" }}>
                                         {loc.about}
                                     </Typography>
-                                    <Button>Explore</Button>
+                                    <Button size="sm" className="mt-2">Explore</Button>
                                 </Stack>
                             </CardActionArea>
                         </Card>
@@ -37,14 +38,18 @@ const Trendings = () => {
             </div>
             <div className="bg-[#3B85DB] bg bg-[url('/background.svg')] h-96 z-0 flex flex-col items-center justify-center gap-5">
                 <h1 className="text-4xl font-semibold text-white">Stay Updated</h1>
-                <input
-                    className="outline-none px-2 py-1 bg-transparent border border-white text-white rounded-sm"
+                <Input
+                    className="w-[400px]"
                     type="email"
+                    size="sm"
                     placeholder="Email"
                 />
-                <button className="text-white border border-white px-3 py-2 rounded-sm">
+                <Button
+                    size="sm"
+                    variant="default"
+                >
                     Subscribe
-                </button>
+                </Button>
             </div>
         </div>
     )

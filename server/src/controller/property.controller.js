@@ -69,6 +69,7 @@ const getAllProperty = asyncHandler(async (req, res) => {
 })
 
 const UpdateProperty = asyncHandler(async (req, res) => {
+    // console.log(req, "req.params?._id")
     try {
         const { propertyName, rooms, propertyType, rent, location, propertyImage, description } = req.body
         if ([propertyName, rooms, propertyType, rent, location].some(field => field?.trim() === "")) {
@@ -87,8 +88,9 @@ const UpdateProperty = asyncHandler(async (req, res) => {
 
             propertyImageUrl = uploadedImage.url;
         }
+        const propertyId = req.params._id;
         const updateProperty = await Property.findByIdAndUpdate(
-            req.params?._id,
+            propertyId,
             {
                 $set: {
                     propertyName,
@@ -147,7 +149,7 @@ const getPropertyById = asyncHandler(async (req, res) => {
 const deletePropertyById = asyncHandler(async (req, res) => {
     const propertyId = await req.params.propertyId;
 
-    if(!propertyId) {
+    if (!propertyId) {
         return res.status(400).json(
             new ApiError(400, "Property ID is required")
         )

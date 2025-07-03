@@ -107,9 +107,7 @@ const Listing = () => {
                     {
                         GetAllProperty?.data?.map((property) => (
                             <Card sx={{ maxWidth: 400 }} className="relative">
-                                <CardActionArea
-                                // onClick={() => token ? navigate('/listing-details') : "/login"}
-                                >
+                                <CardActionArea>
                                     <CardMedia
                                         sx={{ height: 220 }}
                                         component="img"
@@ -118,7 +116,7 @@ const Listing = () => {
                                     />
                                     <CardContent>
                                         <div className="flex justify-between items-center mb-2">
-                                            <Typography variant="h5" component="div">
+                                            <Typography variant="h5" component="div" onClick={() => navigate(`/listing-details/?propertyId=${property?._id}`)}>
                                                 {capitalize(property?.propertyName)}
                                             </Typography>
                                             <div

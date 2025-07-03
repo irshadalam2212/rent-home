@@ -58,15 +58,18 @@ export const DeleteProperty = (propertyId: string) => {
     })
 }
 
-export const UpdatePropertyById =
-    async (payload: FormData): Promise<IGetSuccessApiResponse> => {
-        return new Promise((resolve, reject) => {
-            Put(API_BASE_URL, Endpoints.UpdateProperty, payload)
-                .then((response) => {
-                    resolve(response.data);
-                })
-                .catch((error) => {
-                    reject({ error: true, message: error?.response?.data?.message });
-                });
-        });
-    };
+export const UpdatePropertyById = async ({
+    formData,
+    propertyId,
+}: {
+    formData: FormData;
+    propertyId: string;
+}): Promise<IGetSuccessApiResponse> => {
+    return new Promise((resolve, reject) => {
+        Put(API_BASE_URL, Endpoints.UpdateProperty(propertyId), formData)
+            .then((response) => resolve(response.data))
+            .catch((error) =>
+                reject({ error: true, message: error?.response?.data?.message })
+            );
+    });
+};
