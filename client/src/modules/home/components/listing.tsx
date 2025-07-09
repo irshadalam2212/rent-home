@@ -62,6 +62,11 @@ const Listing = () => {
         }));
     };
 
+    const handleCheckout = (id: string) => {
+        navigate(`/listing-details/?propertyId=${id}`)
+    }
+
+
     //filter data 
     const filteredData = useMemo(() => {
         return GetAllProperty?.data
@@ -78,8 +83,6 @@ const Listing = () => {
                 item?.propertyType === filters?.category
             )
     }, [GetAllProperty?.data, filters])
-
-    console.log(filteredData, "Filtered Data")
 
     const handleDeleteProperty = async () => {
         try {
@@ -170,7 +173,7 @@ const Listing = () => {
                                     />
                                     <CardContent>
                                         <div className="flex justify-between items-center mb-2">
-                                            <Typography variant="h5" component="div" onClick={() => navigate(`/listing-details/?propertyId=${property?._id}`)}>
+                                            <Typography variant="h5" component="div" onClick={() => handleCheckout(property?._id)}>
                                                 {property?.propertyName?.length > 13
                                                     ? capitalize(property?.propertyName.substring(0, 13) + "...")
                                                     : capitalize(property?.propertyName)
@@ -207,6 +210,18 @@ const Listing = () => {
                                                 {readmore ? "read more" : "read less"}
                                             </span>
                                         </Typography>
+                                        <div
+                                            className="flex justify-between items-center mt-6"
+                                        >
+                                            <Button
+                                                variant="contained"
+                                                type="button"
+                                                onClick={() => handleCheckout(property?._id)}
+                                            >
+                                                Checkout
+                                            </Button>
+                                            <Button variant="outlined">Add To Wishlist</Button>
+                                        </div>
                                     </CardContent>
                                 </CardActionArea>
                             </Card>
