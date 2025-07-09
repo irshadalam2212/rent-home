@@ -1,17 +1,24 @@
-import { Button, capitalize, Card, CardActionArea, CardContent, CardMedia, Chip, TextField, Typography } from "@mui/material"
+import { Button, Card, CardActionArea, CardContent, CardMedia, Chip, TextField, Typography } from "@mui/material"
 import Heading from "../../../components/shared/heading"
 import { houseCategory, houseType } from "../../../data"
 import { useNavigate } from "react-router-dom"
 import { useDeleteProperty, useGetAllProperty } from "../../property/hooks/property.queries"
-import { MdDelete, MdEdit } from "react-icons/md"
+import { MdAdd, MdDelete, MdEdit } from "react-icons/md"
 import { Notification, toast } from "../../../components/ui"
 import ConfirmDialog from "../../../components/shared/ConfirmDialog"
-import { useState } from "react"
+import { useMemo, useState } from "react"
+import { capitalize } from "../../../utils/capitalize"
 
 const Listing = () => {
     const navigate = useNavigate()
     const [dialogOpen, setDialogOpen] = useState(false)
     const [currentPropertyId, setCurrentPropertyId] = useState("")
+    const [filters, setFilters] = useState({
+        searchQuery: "",
+        bedrooms: null,
+        category: ""
+    })
+    const [readmore, setReadMore] = useState({})
     // const token = localStorage.getItem("token")
 
     const { data: GetAllProperty, refetch: RefetchAllProperty } = useGetAllProperty()
@@ -32,6 +39,47 @@ const Listing = () => {
         const encodedId = (propertyId);
         navigate(`/edit-listing?propertyId=${encodedId}`);
     };
+
+    const handleSearchChange = (e: any) => {
+        // console.log(e.target.value)
+        setFilters(prev => ({ ...prev, searchQuery: e?.target?.value }))
+    }
+
+    const handleBedroomChange = (noOfBedroom: any) => {
+        // console.log(noOfBedroom)
+        setFilters(prev => ({ ...prev, bedrooms: noOfBedroom }))
+    }
+
+    const handCategoryChange = (category: string) => {
+        // console.log(category)
+        setFilters(prev => ({ ...prev, category: category }))
+    }
+
+    const toggleReadMore = (id: any) => {
+        setReadMore((prev: any) => ({
+            ...prev,
+            [id]: !prev[id]
+        }));
+    };
+
+    //filter data 
+    const filteredData = useMemo(() => {
+        return GetAllProperty?.data
+            ?.filter(item =>
+                filters.searchQuery === '' ||
+                item?.propertyName?.toLowerCase().includes(filters?.searchQuery?.toLowerCase())
+            )
+            ?.filter(item =>
+                filters.bedrooms === null ||
+                item?.rooms == filters.bedrooms
+            )
+            ?.filter(item =>
+                filters?.category === "" ||
+                item?.propertyType === filters?.category
+            )
+    }, [GetAllProperty?.data, filters])
+
+    console.log(filteredData, "Filtered Data")
 
     const handleDeleteProperty = async () => {
         try {
@@ -66,14 +114,14 @@ const Listing = () => {
             <Heading>
                 Listing
             </Heading>
-            <TextField id="outlined-search" label="Search property" type="search" size="small" />
+            <TextField id="outlined-search" label="Search property" type="search" size="small" onChange={(e) => handleSearchChange(e)} />
             <div className="flex justify-end">
                 <Button
                     className="uppercase"
                     variant="outlined"
                     onClick={() => navigate("/add-listing")}
                 >
-                    ➕ Add Listing
+                    <MdAdd size={18} /> {" "} Add Listing
                 </Button>
             </div>
             <div className="flex justify-between">
@@ -84,8 +132,10 @@ const Listing = () => {
                     <div className="flex flex-col gap-2">
                         {
                             houseType.map((house, index) => (
-                                <span key={index}
-                                    className="text-sm text-[#999]"
+                                <span
+                                    key={index}
+                                    className="text-sm text-[#999] cursor-pointer hover:text-[#6d6c6c]"
+                                    onClick={() => handleBedroomChange(house.charAt(0))}
                                 >{house}</span>
                             ))
                         }
@@ -95,9 +145,13 @@ const Listing = () => {
                     <div className="flex flex-col gap-2">
                         {
                             houseCategory.map((house, index) => (
-                                <span key={index}
-                                    className="text-sm text-[#999]"
-                                >{house}</span>
+                                <span
+                                    key={index}
+                                    className="text-sm text-[#999] cursor-pointer hover:text-[#6d6c6c]"
+                                    onClick={() => handCategoryChange(house.toLowerCase())}
+                                >
+                                    {house}
+                                </span>
                             ))
                         }
                     </div>
@@ -105,8 +159,8 @@ const Listing = () => {
                 {/* Properties listing  */}
                 <div className="grid grid-cols-3 gap-5 ">
                     {
-                        GetAllProperty?.data?.map((property) => (
-                            <Card sx={{ maxWidth: 400 }} className="relative">
+                        filteredData?.map((property) => (
+                            <Card key={property?._id} sx={{ maxWidth: 400 }} className="relative">
                                 <CardActionArea>
                                     <CardMedia
                                         sx={{ height: 220 }}
@@ -117,7 +171,10 @@ const Listing = () => {
                                     <CardContent>
                                         <div className="flex justify-between items-center mb-2">
                                             <Typography variant="h5" component="div" onClick={() => navigate(`/listing-details/?propertyId=${property?._id}`)}>
-                                                {capitalize(property?.propertyName)}
+                                                {property?.propertyName?.length > 13
+                                                    ? capitalize(property?.propertyName.substring(0, 13) + "...")
+                                                    : capitalize(property?.propertyName)
+                                                }
                                             </Typography>
                                             <div
                                                 className="flex gap-2"
@@ -145,7 +202,10 @@ const Listing = () => {
                                         </Typography>
                                         <Chip sx={{ color: "#3b85db", backgroundColor: "white" }} label={capitalize(property.propertyType)} variant="outlined" className="absolute top-3 right-2" />
                                         <Typography variant="body2" color="text.secondary" className="ml-6">
-                                            {property?.description}
+                                            {readmore ? property?.description?.substring(0, 50) : property?.description}
+                                            <span className="text-[#3b85db] ml-1 cursor-pointer" onClick={() => toggleReadMore(property._id)}>
+                                                {readmore ? "read more" : "read less"}
+                                            </span>
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>

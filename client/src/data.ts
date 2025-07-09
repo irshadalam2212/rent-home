@@ -1,6 +1,6 @@
 
 export const houseType = ["1 BEDROOM", "2 BEDROOM", "3 BEDROOM", "4 BEDROOM", "5 BEDROOM"]
-export const houseCategory = ["Family House", "Shop", "Office", "Store room", "PG"]
+export const houseCategory = ["Apartment", "Commercial", "House", "Land"]
 export const housesForRent = [
     {
         type: "3 bedrooms",
