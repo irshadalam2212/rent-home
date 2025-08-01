@@ -18,7 +18,7 @@ interface userRole {
     value: string
 }
 
-export interface IPostUserData {
+export interface IPostUserFormData {
     name: string,
     email: string,
     userRole: userRole | null
@@ -26,4 +26,10 @@ export interface IPostUserData {
 
 export interface IGetUserByIdResponse extends IGetApiResponse {
     data: IGetUser
+}
+
+export interface IPutUserPayload {
+    name: string,
+    email: string,
+    userRole: string
 }

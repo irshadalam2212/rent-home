@@ -1,14 +1,17 @@
 import { Controller, useForm } from "react-hook-form"
-import { Button, Form, FormItem, Input, Select } from "../components/ui"
+import { Button, Form, FormItem, Input, Notification, Select, toast } from "../components/ui"
 import { userRoles } from "../data/roles"
-import { useNavigate } from "react-router-dom"
-import { IPostUserData } from "../modules/users/models/user.interface"
-import { useGetUserById } from "../modules/users/hooks/user.hooks"
+import { useLocation, useNavigate } from "react-router-dom"
+import { IPostUserFormData } from "../modules/users/models/user.interface"
+import { useGetUserById, useUpdateUser } from "../modules/users/hooks/user.hooks"
 import { useEffect } from "react"
 
 const UserDetails = () => {
     const navigate = useNavigate()
-    const { control, handleSubmit, setValue } = useForm<IPostUserData>({
+    const location = useLocation()
+    const state = location?.state || {}
+    const userId = state?.id
+    const { control, handleSubmit, setValue } = useForm<IPostUserFormData>({
         defaultValues: {
 
         }
@@ -18,10 +21,38 @@ const UserDetails = () => {
     const {
         data: GetUserByIdData,
         isLoading: GetUserByIdDataIsLoading
-    } = useGetUserById("688c9302de7b4fa52cfb0ab4")
+    } = useGetUserById(userId)
 
-    const onSubmit = async (data: IPostUserData) => {
-        console.log(data)
+    const { mutateAsync: UpdateUser, isLoading: UserUpdateIsLoading } = useUpdateUser()
+
+    const onSubmit = async (data: IPostUserFormData) => {
+        const payload = {
+            name: data.name ?? "",
+            email: data?.email ?? "",
+            userRole: data?.userRole?.value ?? ""
+        }
+        if (userId) {
+            try {
+                const response = await UpdateUser({
+                    payload,
+                    userId
+                });
+                toast.push(
+                    <Notification type="success" duration={3000}>
+                        {response?.message ?? "Operation successful"}
+                    </Notification>,
+                    { placement: "top-end" }
+                );
+            } catch (error: any) {
+                console.error("Upload error:", error);
+                toast.push(
+                    <Notification type="danger" duration={3000}>
+                        {error?.message ?? "Something went wrong"}
+                    </Notification>,
+                    { placement: "top-end" }
+                );
+            }
+        }
     }
 
     useEffect(() => {
@@ -106,6 +137,7 @@ const UserDetails = () => {
                         type="button"
                         variant="default"
                         onClick={() => navigate(-1)}
+                        disabled={UserUpdateIsLoading}
                     >
                         Back
                     </Button>
@@ -113,6 +145,7 @@ const UserDetails = () => {
                         size="sm"
                         type="submit"
                         variant="solid"
+                        disabled={UserUpdateIsLoading}
                     >
                         Update
                     </Button>

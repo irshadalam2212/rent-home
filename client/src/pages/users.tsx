@@ -30,7 +30,7 @@ const Users = () => {
                                             </button>
                                         }
                                     >
-                                        <Dropdown.Item onClick={() => navigate('/users/edit-user')}>Edit</Dropdown.Item>
+                                        <Dropdown.Item onClick={() => navigate('/users/edit-user', { state: { id: user?._id } })}>Edit</Dropdown.Item>
                                         <Dropdown.Item >Delete</Dropdown.Item>
                                     </Dropdown>
                                 </div>

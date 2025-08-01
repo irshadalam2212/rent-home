@@ -1,5 +1,5 @@
-import { useQuery } from "react-query"
-import { GetAllUser, GetUserById } from "../services/user.services"
+import { useMutation, useQuery } from "react-query"
+import { GetAllUser, GetUserById, UpdateUserById } from "../services/user.services"
 
 export const useGetAllUsers = () => {
     return useQuery(['qGetAllUsers'], () => GetAllUser(), {
@@ -12,4 +12,8 @@ export const useGetUserById = (userId: string) => {
         refetchOnWindowFocus: false,
         enabled: !!userId
     })
+}
+
+export const useUpdateUser = () => {
+  return useMutation(UpdateUserById)
 }
