@@ -120,9 +120,37 @@ const getAllUser = asyncHandler(async (req, res) => {
     }
 })
 
+const getUserById = asyncHandler(async (req, res) => {
+    const userId = req.params.userId;
+    if (!userId) {
+        return res.status(400).json(
+            new ApiError(400, "User ID is required")
+        )
+    }
+    try {
+        const user = await User.findById(userId)
+            .select("-password -refreshToken")
+
+        if (!user) {
+            res.status(404).json(
+                new ApiError(404, "user not found",)
+            )
+        }
+        return res.status(200).json(
+            new ApiResponse(200, user, "User fetched successfully")
+        )
+    } catch (error) {
+        console.error("Error fetching user by ID:", error);
+        return res.status(500).json(
+            new ApiError(500, "Internal server error while fetching user by ID")
+        );
+    }
+})
+
 export {
     register,
     generateAccessTokenAndRefreshTokens,
     login,
     getAllUser,
+    getUserById,
 }
