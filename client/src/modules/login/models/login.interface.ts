@@ -8,7 +8,7 @@ export interface IFetchUserResponse {
     data: {
         user: {
             _id: string;
-            userName: string;
+            name: string;
             email: string;
             createdAt: string;
             updatedAt: string;

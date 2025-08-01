@@ -1,4 +1,5 @@
 import { User } from "../models/user.models.js"
+import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/apiResponse.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 
@@ -19,24 +20,24 @@ const generateAccessTokenAndRefreshTokens = async (userId) => {
 }
 
 const register = asyncHandler(async (req, res) => {
-    const { userName, email, password } = req.body
+    const { name, email, password } = req.body
 
     if (
-        [email, userName, password].some((field) => field?.trim() === "")
+        [email, name, password].some((field) => field?.trim() === "")
     ) {
         return res.status(400).json(new ApiResponse(400, "All fields are required"))
     }
 
     const existingUser = await User.findOne({
-        $or: [{ userName }, { email }]
+        $or: [{ name }, { email }]
     })
 
     if (existingUser) {
-        return res.status(409).json(new ApiResponse(409, "User with email or username is already exists"))
+        return res.status(409).json(new ApiResponse(409, "User with email or name is already exists"))
     }
 
     const user = await User.create({
-        userName: userName.toLowerCase(),
+        name: name.toLowerCase(),
         email,
         password
     })
@@ -103,8 +104,25 @@ const login = asyncHandler(async (req, res) => {
 
 })
 
+const getAllUser = asyncHandler(async (req, res) => {
+    try {
+        const user = await User.find({}).select("-password -refreshToken")
+        if (user) {
+            return res.status(200).json(
+                new ApiResponse(200, user, "All user fetched successfully")
+            )
+        } else {
+            return new ApiError(404, "No user found")
+        }
+    } catch (error) {
+        console.error("Error fetching users: ", error);
+        return new ApiError(500, "Internal server error while fetching users")
+    }
+})
+
 export {
     register,
     generateAccessTokenAndRefreshTokens,
-    login
+    login,
+    getAllUser,
 }

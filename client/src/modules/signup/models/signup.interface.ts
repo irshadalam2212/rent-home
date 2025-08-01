@@ -1,5 +1,5 @@
 export interface IPostUserPayload {
-    userName: string,
+    name: string,
     email: string,
     password: string
 }
@@ -8,7 +8,7 @@ export interface IUserRegistrationResponse {
     statusCode: number;
     data: {
       _id: string;
-      userName: string;
+      name: string;
       email: string;
       createdAt: string;
       updatedAt: string;

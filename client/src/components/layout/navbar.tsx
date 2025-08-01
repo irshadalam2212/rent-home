@@ -29,9 +29,9 @@ const Navbar = () => {
                 <Button
                     className="uppercase"
                     variant="text"
-                    onClick={() => navigate("/hosts")}
+                    onClick={() => navigate("/users")}
                 >
-                    Browse Hosts
+                    browse user's
                 </Button>
                 {
                     token && (

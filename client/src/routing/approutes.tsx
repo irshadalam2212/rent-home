@@ -10,16 +10,18 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { Dev_Var } from '../../environment'
 import { environments } from '../models/constants'
 import ListingDetails from '../pages/listingdetails'
+import Users from '../pages/users'
+import UserDetails from '../pages/user-details'
 const AppRoutes: FC = () => {
-  
+
     const queryClient = new QueryClient({
         defaultOptions: {
-          queries: {
-            refetchOnWindowFocus:
-              Dev_Var === environments?.development ? false : true,
-          },
+            queries: {
+                refetchOnWindowFocus:
+                    Dev_Var === environments?.development ? false : true,
+            },
         },
-      });
+    });
 
     const router = createBrowserRouter([
         {
@@ -63,8 +65,12 @@ const AppRoutes: FC = () => {
                             element: "My Profile"
                         },
                         {
-                            path: "hosts",
-                            element: "Host"
+                            path: "users",
+                            element: <Users />,
+                        },
+                        {
+                            path: "users/edit-user",
+                            element: <UserDetails />,
                         },
                         {
                             path: "logout",
@@ -78,8 +84,8 @@ const AppRoutes: FC = () => {
 
     return (
         <QueryClientProvider client={queryClient} contextSharing={true}>
-        {/* <ReactQueryDevtools initialIsOpen={false} position={"bottom-right"} /> */}
-        <RouterProvider router={router} />
+            {/* <ReactQueryDevtools initialIsOpen={false} position={"bottom-right"} /> */}
+            <RouterProvider router={router} />
         </QueryClientProvider>
     );
 };

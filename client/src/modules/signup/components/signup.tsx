@@ -1,32 +1,33 @@
 import { Button, TextField } from "@mui/material"
-import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
 import { useRegisteruser } from "../hooks/signup.queries"
-import { IUserRegistrationResponse } from "../models/signup.interface"
+import { IPostUserPayload } from "../models/signup.interface"
 
 
 const SignUp = () => {
     const navigate = useNavigate()
-    const [response, setResponse] = useState()
+    // const [response, setResponse] = useState()
     const { mutateAsync: RegisterUser, isLoading: RegisterUserIsLoading } = useRegisteruser();
 
-    const { control, handleSubmit } = useForm<IUserRegistrationResponse>({ 
+    const { control, handleSubmit } = useForm<IPostUserPayload>({
         defaultValues: {
+            name: "",
+            email: "",
+            password: ""
+        }
+    });
 
-        }});
-
-    const registerUser = async (values: any) => {
+    const registerUser = async (values: IPostUserPayload) => {
         try {
             const response = await RegisterUser(values)
-            response?.data ? setResponse(response?.data) : {}
+            console.log(response, "Response")
+            // response?.data ? setResponse(response?.data) : {}
             navigate("/login")
         } catch (error) {
             console.log(error)
         }
     }
-
-    console.log(response, "Response")
 
     return (
         <div className="flex items-center justify-center h-screen w-full">
@@ -36,14 +37,14 @@ const SignUp = () => {
                 <form onSubmit={handleSubmit(registerUser)}>
                     <div className="flex flex-col gap-4 my-4">
                         <Controller
-                            name="userName"
+                            name="name"
                             control={control}
                             render={({ field }) =>
                                 <TextField
                                     {...field}
                                     required
                                     id="outlined-required"
-                                    label="Username"
+                                    label="Name"
                                     size="small"
                                     autoComplete="off"
                                 />
