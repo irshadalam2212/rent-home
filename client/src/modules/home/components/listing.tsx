@@ -1,13 +1,14 @@
-import { Button, Card, CardActionArea, CardContent, CardMedia, Chip, TextField, Typography } from "@mui/material"
+import { Card, CardActionArea, CardContent, CardMedia, Chip, TextField, Typography } from "@mui/material"
 import Heading from "../../../components/shared/heading"
 import { houseCategory, houseType } from "../../../data"
 import { useNavigate } from "react-router-dom"
 import { useDeleteProperty, useGetAllProperty } from "../../property/hooks/property.queries"
 import { MdAdd, MdDelete, MdEdit } from "react-icons/md"
-import { Notification, toast } from "../../../components/ui"
+import { Button, Notification, toast } from "../../../components/ui"
 import ConfirmDialog from "../../../components/shared/ConfirmDialog"
 import { useMemo, useState } from "react"
 import { capitalize } from "../../../utils/capitalize"
+import { useWishListStore } from "../../../store/wishlist.store"
 
 const Listing = () => {
     const navigate = useNavigate()
@@ -24,6 +25,22 @@ const Listing = () => {
     const { data: GetAllProperty, refetch: RefetchAllProperty } = useGetAllProperty()
     const { mutateAsync: DeleteListing, isLoading: listingDeletionIsLoading } =
         useDeleteProperty()
+
+    //--------------store--------------//
+    const { addToWishlist, removeFromWishlist, isInWishlist } = useWishListStore()
+
+    const handleWishListToggle = (id: string) => {
+        if (isInWishlist(id)) {
+            removeFromWishlist(id);
+        } else {
+            const property = GetAllProperty?.data?.find((prop) => prop._id === id);
+
+            if (property) {
+                const completeProperty = { ...property, __v: 0 };
+                addToWishlist(completeProperty);
+            }
+        }
+    };
 
     const handleDialogOpen = (propertyId: string) => {
         setCurrentPropertyId(propertyId)
@@ -120,8 +137,9 @@ const Listing = () => {
             <TextField id="outlined-search" label="Search property" type="search" size="small" onChange={(e) => handleSearchChange(e)} />
             <div className="flex justify-end">
                 <Button
-                    className="uppercase"
-                    variant="outlined"
+                    className="uppercase flex gap-2 items-center justify-center"
+                    size="sm"
+                    // variant="outlined"
                     onClick={() => navigate("/add-listing")}
                 >
                     <MdAdd size={18} /> {" "} Add Listing
@@ -214,13 +232,22 @@ const Listing = () => {
                                             className="flex justify-between items-center mt-6"
                                         >
                                             <Button
-                                                variant="contained"
+                                                variant="solid"
+                                                size="sm"
                                                 type="button"
                                                 onClick={() => handleCheckout(property?._id)}
+                                                className="text-xs"
                                             >
                                                 Checkout
                                             </Button>
-                                            <Button variant="outlined">Add To Wishlist</Button>
+                                            <Button
+                                                variant="default"
+                                                size="sm"
+                                                className="!text-xs"
+                                                onClick={() => handleWishListToggle(property?._id)}
+                                            >
+                                                {isInWishlist(property?._id) ? "Remove From Wishlist" : "Add To Wishlist"}
+                                            </Button>
                                         </div>
                                     </CardContent>
                                 </CardActionArea>

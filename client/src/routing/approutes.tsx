@@ -12,6 +12,7 @@ import { environments } from '../models/constants'
 import ListingDetails from '../pages/listingdetails'
 import Users from '../pages/users'
 import UserDetails from '../pages/user-details'
+import Wishlist from '../pages/wishlist'
 const AppRoutes: FC = () => {
 
     const queryClient = new QueryClient({
@@ -71,6 +72,10 @@ const AppRoutes: FC = () => {
                         {
                             path: "users/edit-user",
                             element: <UserDetails />,
+                        },
+                        {
+                            path: "wishlist",
+                            element: <Wishlist />,
                         },
                         {
                             path: "logout",

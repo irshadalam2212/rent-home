@@ -1,5 +1,7 @@
 import Button from '@mui/material/Button';
+import { FaHeart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { useWishListStore } from '../../store/wishlist.store';
 
 const Navbar = () => {
     const token = localStorage.getItem("token")
@@ -10,6 +12,9 @@ const Navbar = () => {
         localStorage.removeItem("token")
         navigate("/home")
     }
+
+    const { wishlist } = useWishListStore()
+    const wishlistCount = wishlist?.length
 
     return (
         <div className="flex justify-between items-center py-3 bg-white">
@@ -44,17 +49,18 @@ const Navbar = () => {
                         </Button>
                     )
                 }
-                {/* {
+                {
                     token && (
                         <Button
-                            className="uppercase"
-                            variant="outlined"
-                            onClick={() => navigate("/add-listing")}
+                            className="uppercase relative"
+                            variant="text"
+                            onClick={() => navigate("/wishlist")}
                         >
-                            Add Listing
+                            <FaHeart size={20} />
+                            <span className='absolute top-0 right-3'>{wishlistCount}</span>
                         </Button>
                     )
-                } */}
+                }
                 {
                     !token &&
                     (

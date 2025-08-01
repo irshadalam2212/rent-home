@@ -3,6 +3,7 @@ import { Dropdown } from "../components/ui";
 import { useNavigate } from "react-router-dom";
 import { useGetAllUsers } from "../modules/users/hooks/user.hooks";
 import capitalize from "../components/ui/utils/capitalize";
+import { userRoles } from "../data/roles";
 
 const Users = () => {
     const navigate = useNavigate()
@@ -18,10 +19,15 @@ const Users = () => {
                     <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-3">
                         {GetAllUser?.data?.map((user, index) => (
                             <div key={index} className="p-4 border rounded-lg relative">
-                                <span className="block">Name: {capitalize(user?.name)}</span>
-                                <span className="block">Email: {user.email}</span>
+                                <span className="block">Name: {capitalize(user?.name) ?? "-"}</span>
+                                <span className="block">Email: {user.email ?? "-"}</span>
                                 {/* <span className="block">Username: {user.}</span> */}
-                                <span className="block">Role: {capitalize(user?.userRole)}</span>
+                                <span className="block">
+                                    Role: {user.userRole
+                                        ? userRoles.find((us) => us.value === user.userRole)?.label ?? "-"
+                                        : "-"}
+                                </span>
+
                                 <div className="absolute top-2 right-6">
                                     <Dropdown
                                         renderTitle={
