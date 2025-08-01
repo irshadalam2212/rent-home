@@ -1,3 +1,4 @@
 export const Endpoints = {
-    GetAllUsers: "/users"
+    GetAllUsers: "/users",
+    GetUserById: "/users/{userId}"
 }

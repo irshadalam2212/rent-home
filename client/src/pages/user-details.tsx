@@ -3,18 +3,38 @@ import { Button, Form, FormItem, Input, Select } from "../components/ui"
 import { userRoles } from "../data/roles"
 import { useNavigate } from "react-router-dom"
 import { IPostUserData } from "../modules/users/models/user.interface"
+import { useGetUserById } from "../modules/users/hooks/user.hooks"
+import { useEffect } from "react"
 
 const UserDetails = () => {
     const navigate = useNavigate()
-    const { control, handleSubmit } = useForm<IPostUserData>({
+    const { control, handleSubmit, setValue } = useForm<IPostUserData>({
         defaultValues: {
 
         }
     })
 
+    //-----------------hooks-------------//
+    const {
+        data: GetUserByIdData,
+        isLoading: GetUserByIdDataIsLoading
+    } = useGetUserById("688c9302de7b4fa52cfb0ab4")
+
     const onSubmit = async (data: IPostUserData) => {
         console.log(data)
     }
+
+    useEffect(() => {
+        if (!GetUserByIdDataIsLoading && GetUserByIdData?.data) {
+            const userData = GetUserByIdData?.data
+            setValue("name", userData?.name)
+            setValue("email", userData?.email)
+            setValue(
+                "userRole",
+                userRoles.find(user => user.value === userData?.userRole) ?? null
+            );
+        }
+    }, [GetUserByIdData])
 
     return (
         <div className="mt-6 min-h-screen">

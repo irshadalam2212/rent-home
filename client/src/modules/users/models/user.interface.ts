@@ -1,6 +1,6 @@
 import { IGetApiResponse } from "../../../models/shared.model";
 
-interface IGetAllUser {
+interface IGetUser {
     _id: string,
     name: string,
     email: string,
@@ -10,7 +10,7 @@ interface IGetAllUser {
 }
 
 export interface IGetAllUserResponse extends IGetApiResponse {
-    data: IGetAllUser[]
+    data: IGetUser[]
 }
 
 interface userRole {
@@ -21,5 +21,9 @@ interface userRole {
 export interface IPostUserData {
     name: string,
     email: string,
-    userRole: userRole
+    userRole: userRole | null
+}
+
+export interface IGetUserByIdResponse extends IGetApiResponse {
+    data: IGetUser
 }
