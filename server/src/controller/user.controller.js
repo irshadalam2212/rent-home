@@ -147,10 +147,42 @@ const getUserById = asyncHandler(async (req, res) => {
     }
 })
 
+const updateUser = asyncHandler(async (req, res) => {
+    try {
+        const { name, email, userRole } = req.body
+        if ([name, email, userRole].some(field => field?.trim() === "")) {
+            throw new ApiError(400, "Please fill all the required fields")
+        }
+        const userId = req.params.userId;
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            {
+                $set: {
+                    name,
+                    email,
+                    userRole
+                }
+            }, { new: true }
+        )
+
+        if (!updatedUser) {
+            return new ApiError(404, "User not found")
+        }
+
+        return res
+            .status(200)
+            .json(new ApiResponse(200, [], "User updated successfully"))
+    } catch (error) {
+        console.error("Error updating user:", error);
+        return new ApiError(500, "Internal server error while updating user");
+    }
+})
+
 export {
     register,
     generateAccessTokenAndRefreshTokens,
     login,
     getAllUser,
     getUserById,
+    updateUser
 }

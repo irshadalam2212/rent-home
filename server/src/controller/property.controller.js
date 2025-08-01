@@ -88,7 +88,7 @@ const UpdateProperty = asyncHandler(async (req, res) => {
 
             propertyImageUrl = uploadedImage.url;
         }
-        const propertyId = req.params._id;
+        const propertyId = req.params.propertyId;
         const updateProperty = await Property.findByIdAndUpdate(
             propertyId,
             {

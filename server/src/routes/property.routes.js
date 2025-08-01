@@ -26,7 +26,7 @@ router.route("/property/all-properties")
 router.route("/property/:propertyId")
     .get(getPropertyById)
 
-router.route("/property/update-property/:_id")
+router.route("/property/update-property/:propertyId")
     .put(upload.fields([
         {
             name: "propertyImage",
