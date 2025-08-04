@@ -7,12 +7,6 @@ export const Wishlist = () => {
     const { wishlist, removeFromWishlist } = useWishListStore()
     const wishlistCount = wishlist?.length
 
-    console.log(wishlist)
-    // const cardHeader = (
-    //     <div className="rounded-tl-lg rounded-tr-lg overflow-hidden">
-    //         <img src="/img/others/img-1.jpg" alt="card header" />
-    //     </div>
-    // )
     const cardFooter = (
         <div className="flex items-center">
             <Avatar
@@ -70,7 +64,7 @@ export const Wishlist = () => {
                     </div>
                     :
                     <div className="flex flex-col gap-5 items-center justify-center h-[300px]">
-                        <img src={noData} alt="" className="h-[200px]"/>
+                        <img src={noData} alt="" className="h-[200px]" />
                         No Data Found
                     </div>
             }
