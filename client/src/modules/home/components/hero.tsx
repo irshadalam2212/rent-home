@@ -2,6 +2,13 @@ import { Box, Button, CardContent, CardMedia, Typography } from "@mui/material"
 import HeroImg from "../../../assets/hero.png"
 
 const HeroSection = () => {
+    const handleExploreButton = () => {
+        window.scrollBy({
+            top: window.innerHeight + 120,
+            behavior: "smooth"
+        })
+    }
+
     return (
         <div className="bg-[url('/background.svg')] h-screen flex items-center justify-center px-6">
             <div className="flex items-center justify-between">
@@ -17,10 +24,14 @@ const HeroSection = () => {
                             component="div"
                             sx={{ color: 'black', fontSize: "16px" }}
                         >
-                            Homes, Shops, Spaces — All in One Place
+                            Homes, Shops,  Offices and Lands — All in One Place
                         </Typography>
-                        <Button variant="contained" size="medium">
-                            Explore Spaces
+                        <Button
+                            variant="contained"
+                            size="medium"
+                            onClick={() => handleExploreButton()}
+                        >
+                            Explore Listing
                         </Button>
                     </CardContent>
                 </Box>
