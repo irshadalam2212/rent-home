@@ -1,1 +1,1 @@
-export const DB_NAME = "easyhome"
+export const DB_NAME = "urbanlease"
