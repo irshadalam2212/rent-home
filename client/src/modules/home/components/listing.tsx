@@ -16,8 +16,8 @@ const Listing = () => {
     const [currentPropertyId, setCurrentPropertyId] = useState("")
     const [filters, setFilters] = useState({
         searchQuery: "",
-        bedrooms: null,
-        category: ""
+        bedrooms: [] as number[],
+        category: [] as string[]
     })
     const [readmore, setReadMore] = useState({})
     // const token = localStorage.getItem("token")
@@ -63,14 +63,29 @@ const Listing = () => {
     }
 
     const handleBedroomChange = (noOfBedroom: any) => {
-        // console.log(noOfBedroom)
-        setFilters(prev => ({ ...prev, bedrooms: noOfBedroom }))
+        setFilters(prev => {
+            const alreadySelected = prev.bedrooms.includes(noOfBedroom)
+            return {
+                ...prev,
+                bedrooms: alreadySelected
+                    ? prev.bedrooms.filter(b => b !== noOfBedroom) // remove
+                    : [...prev.bedrooms, noOfBedroom]              // add
+            }
+        })
     }
 
-    const handCategoryChange = (category: string) => {
-        // console.log(category)
-        setFilters(prev => ({ ...prev, category: category }))
+    const handleCategoryChange = (category: string) => {
+        setFilters(prev => {
+            const alreadySelected = prev.category.includes(category)
+            return {
+                ...prev,
+                category: alreadySelected
+                    ? prev.category.filter(c => c !== category) // remove if already selected
+                    : [...prev.category, category]              // add if not selected
+            }
+        })
     }
+
 
     const toggleReadMore = (id: any) => {
         setReadMore((prev: any) => ({
@@ -92,12 +107,12 @@ const Listing = () => {
                 item?.propertyName?.toLowerCase().includes(filters?.searchQuery?.toLowerCase())
             )
             ?.filter(item =>
-                filters.bedrooms === null ||
-                item?.rooms == filters.bedrooms
+                filters.bedrooms?.length === 0 ||
+                filters.bedrooms?.includes(item?.rooms)
             )
             ?.filter(item =>
-                filters?.category === "" ||
-                item?.propertyType === filters?.category
+                filters.category.length === 0 ||
+                filters.category.includes(item?.propertyType)
             )
     }, [GetAllProperty?.data, filters])
 
@@ -150,30 +165,42 @@ const Listing = () => {
                 <div className="flex flex-col gap-3 w-[300px]">
                     <h4 className="text-base font-normal text-[#616161]">Filter By Bedrooms</h4>
                     {/* filter by bedrooms  */}
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-wrap gap-2 w-[250px]">
                         {
-                            houseType.map((house, index) => (
-                                <span
-                                    key={index}
-                                    className="text-sm text-[#999] cursor-pointer hover:text-[#6d6c6c]"
-                                    onClick={() => handleBedroomChange(house.charAt(0))}
-                                >{house}</span>
-                            ))
+                            houseType.map((house, index) => {
+                                // const value = house.charAt(0)
+                                const isSelected = filters.bedrooms.includes(house.value)
+                                return (
+                                    <span
+                                        key={index}
+                                        className={` text-xs w-fit cursor-pointer rounded-full px-3 py-1 ${isSelected ? "border border-primary text-primary bg-blue-50" : "text-gray-400 border border-gray-400 bg-gray-50"}`}
+                                        onClick={() => handleBedroomChange(house.value)}
+                                    >
+                                        {house.label}
+                                    </span>
+                                )
+                            }
+                            )
                         }
                     </div>
                     <h4 className="text-base font-normal text-[#616161]">Filter By Category</h4>
                     {/* filter by category */}
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-wrap gap-2 w-[250px]">
                         {
-                            houseCategory.map((house, index) => (
-                                <span
-                                    key={index}
-                                    className="text-sm text-[#999] cursor-pointer hover:text-[#6d6c6c]"
-                                    onClick={() => handCategoryChange(house.toLowerCase())}
-                                >
-                                    {house}
-                                </span>
-                            ))
+                            houseCategory.map((house, index) => {
+                                const isSelected = filters.category.includes(house.value)
+                                return (
+                                    <span
+                                        key={index}
+                                        className={` text-xs w-fit cursor-pointer rounded-full px-3 py-1 ${isSelected ? "border border-primary text-primary bg-blue-50" : "text-gray-400 border border-gray-400 bg-gray-50"}`}
+                                        onClick={() => handleCategoryChange(house.value)}
+                                    >
+                                        {house.label}
+                                    </span>
+                                )
+                            }
+
+                            )
                         }
                     </div>
                 </div>

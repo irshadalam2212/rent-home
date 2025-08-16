@@ -1,6 +1,19 @@
 
-export const houseType = ["1 BEDROOM", "2 BEDROOM", "3 BEDROOM", "4 BEDROOM", "5 BEDROOM"]
-export const houseCategory = ["Apartment", "Commercial", "House", "Land"]
+export const houseType = [
+    { label: "1 Bed", value: 1 },
+    { label: "2 Bed", value: 2 },
+    { label: "3 Bed", value: 3 },
+    { label: "4 Bed", value: 4 },
+    { label: "5 Bed", value: 5 },
+]
+
+export const houseCategory = [
+    { label: "Apartment", value: "apartment" },
+    { label: "Commercial", value: "commercial" },
+    { label: "House", value: "house" },
+    { label: "Land", value: "land" }
+]
+
 export const housesForRent = [
     {
         type: "3 bedrooms",

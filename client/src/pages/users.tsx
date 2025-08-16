@@ -16,9 +16,9 @@ const Users = () => {
             <h3 className="mb-4">Users</h3>
             {
                 (!GetAllUserIsLoading && GetAllUser?.data?.length) && (
-                    <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-3">
+                    <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-3 ">
                         {GetAllUser?.data?.map((user, index) => (
-                            <div key={index} className="p-4 border rounded-lg relative">
+                            <div key={index} className="p-4 border rounded-2xl relative ">
                                 <span className="block">Name: {capitalize(user?.name) ?? "-"}</span>
                                 <span className="block">Email: {user.email ?? "-"}</span>
                                 {/* <span className="block">Username: {user.}</span> */}
