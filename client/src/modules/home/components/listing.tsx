@@ -9,6 +9,7 @@ import ConfirmDialog from "../../../components/shared/ConfirmDialog"
 import { useMemo, useState } from "react"
 import { capitalize } from "../../../utils/capitalize"
 import { useWishListStore } from "../../../store/wishlist.store"
+import DualRangeSlider from "../../../components/ui/DualRangeSlider/DualRangeSlider"
 
 const Listing = () => {
     const navigate = useNavigate()
@@ -17,7 +18,11 @@ const Listing = () => {
     const [filters, setFilters] = useState({
         searchQuery: "",
         bedrooms: [] as number[],
-        category: [] as string[]
+        category: [] as string[],
+        priceRange: {
+            minPrice: 0,
+            maxPrice: 0
+        }
     })
     const [readmore, setReadMore] = useState({})
     // const token = localStorage.getItem("token")
@@ -86,6 +91,18 @@ const Listing = () => {
         })
     }
 
+    const handlePriceChange = (minPrice: number, maxPrice: number) => {
+        setFilters((prev) => ({
+            ...prev,
+            priceRange: {
+                ...prev.priceRange,
+                minPrice,
+                maxPrice,
+            },
+        }));
+    };
+
+
 
     const toggleReadMore = (id: any) => {
         setReadMore((prev: any) => ({
@@ -113,6 +130,14 @@ const Listing = () => {
             ?.filter(item =>
                 filters.category.length === 0 ||
                 filters.category.includes(item?.propertyType)
+            )
+            ?.filter(item => {
+                const { minPrice, maxPrice } = filters?.priceRange;
+                return (
+                    (minPrice === 0 || item?.rent >= minPrice) &&
+                    (maxPrice === 0 || item?.rent <= maxPrice)
+                )
+            }
             )
     }, [GetAllProperty?.data, filters])
 
@@ -163,7 +188,7 @@ const Listing = () => {
             <div className="flex justify-between">
                 {/* filter */}
                 <div className="flex flex-col gap-3 w-[300px]">
-                    <h4 className="text-base font-normal text-[#616161]">Filter By Bedrooms</h4>
+                    <h4 className="text-base font-normal text-gray-600">Filter By Bedrooms</h4>
                     {/* filter by bedrooms  */}
                     <div className="flex flex-wrap gap-2 w-[250px]">
                         {
@@ -183,7 +208,7 @@ const Listing = () => {
                             )
                         }
                     </div>
-                    <h4 className="text-base font-normal text-[#616161]">Filter By Category</h4>
+                    <h4 className="text-base font-normal text-gray-600">Filter By Category</h4>
                     {/* filter by category */}
                     <div className="flex flex-wrap gap-2 w-[250px]">
                         {
@@ -203,6 +228,15 @@ const Listing = () => {
                             )
                         }
                     </div>
+                    {/* filter by price */}
+                    <h4 className="text-base font-normal text-gray-600">Filter By Price</h4>
+                    <DualRangeSlider
+                        min={0}
+                        max={100000}
+                        onChange={({ min, max }) => {
+                            handlePriceChange(min, max)
+                        }}
+                    />
                 </div>
                 {/* Properties listing  */}
                 <div className="grid grid-cols-3 gap-5 ">
