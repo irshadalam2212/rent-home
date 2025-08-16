@@ -1,15 +1,16 @@
-import { Card, CardActionArea, CardContent, CardMedia, Chip, TextField, Typography } from "@mui/material"
+// import { Card, CardActionArea, CardContent, CardMedia, Chip, Typography } from "@mui/material"
 import Heading from "../../../components/shared/heading"
 import { houseCategory, houseType } from "../../../data"
 import { useNavigate } from "react-router-dom"
 import { useDeleteProperty, useGetAllProperty } from "../../property/hooks/property.queries"
 import { MdAdd, MdDelete, MdEdit } from "react-icons/md"
-import { Button, Notification, toast } from "../../../components/ui"
+import { Button, Card, Input, Notification, Tag, toast } from "../../../components/ui"
 import ConfirmDialog from "../../../components/shared/ConfirmDialog"
 import { useMemo, useState } from "react"
 import { capitalize } from "../../../utils/capitalize"
 import { useWishListStore } from "../../../store/wishlist.store"
 import DualRangeSlider from "../../../components/ui/DualRangeSlider/DualRangeSlider"
+import noData from "/public/9264822.jpg"
 
 const Listing = () => {
     const navigate = useNavigate()
@@ -24,7 +25,7 @@ const Listing = () => {
             maxPrice: 0
         }
     })
-    const [readmore, setReadMore] = useState({})
+    const [readMore, setReadMore] = useState<{ [key: string]: boolean }>({});
     // const token = localStorage.getItem("token")
 
     const { data: GetAllProperty, refetch: RefetchAllProperty } = useGetAllProperty()
@@ -104,8 +105,8 @@ const Listing = () => {
 
 
 
-    const toggleReadMore = (id: any) => {
-        setReadMore((prev: any) => ({
+    const toggleReadMore = (id: string | number) => {
+        setReadMore(prev => ({
             ...prev,
             [id]: !prev[id]
         }));
@@ -174,8 +175,8 @@ const Listing = () => {
             <Heading>
                 Listing
             </Heading>
-            <TextField id="outlined-search" label="Search property" type="search" size="small" onChange={(e) => handleSearchChange(e)} />
-            <div className="flex justify-end">
+            <div className="flex justify-center items-center gap-3">
+                <Input id="outlined-search" placeholder="Search property" type="search" size="sm" onChange={(e) => handleSearchChange(e)} />
                 <Button
                     className="uppercase flex gap-2 items-center justify-center"
                     size="sm"
@@ -187,7 +188,7 @@ const Listing = () => {
             </div>
             <div className="flex justify-between">
                 {/* filter */}
-                <div className="flex flex-col gap-3 w-[300px]">
+                <div className="flex flex-col gap-3 w-[300px] border-r border-gray-300 mr-2">
                     <h4 className="text-base font-normal text-gray-600">Filter By Bedrooms</h4>
                     {/* filter by bedrooms  */}
                     <div className="flex flex-wrap gap-2 w-[250px]">
@@ -239,7 +240,7 @@ const Listing = () => {
                     />
                 </div>
                 {/* Properties listing  */}
-                <div className="grid grid-cols-3 gap-5 ">
+                {/* <div className="grid grid-cols-3 gap-5 ">
                     {
                         filteredData?.map((property) => (
                             <Card key={property?._id} sx={{ maxWidth: 400 }} className="relative">
@@ -251,13 +252,13 @@ const Listing = () => {
                                         alt={property?.propertyName}
                                     />
                                     <CardContent>
-                                        <div className="flex justify-between items-center mb-2">
-                                            <Typography variant="h5" component="div" onClick={() => handleCheckout(property?._id)}>
+                                        <div className="flex justify-between items-center gap-2">
+                                            <h5 onClick={() => handleCheckout(property?._id)}>
                                                 {property?.propertyName?.length > 13
                                                     ? capitalize(property?.propertyName.substring(0, 13) + "...")
                                                     : capitalize(property?.propertyName)
                                                 }
-                                            </Typography>
+                                            </h5>
                                             <div
                                                 className="flex gap-2"
                                             >
@@ -276,18 +277,25 @@ const Listing = () => {
                                             </div>
                                         </div>
 
-                                        <Typography variant="body2" sx={{ color: '#212529', fontSize: "16px", marginBottom: "8px" }}>
+                                        <span className="text-base">
                                             {capitalize(property.location)}
-                                        </Typography>
+                                        </span>
                                         <Typography variant="body2" sx={{ color: 'text.secondary', marginBottom: "8px" }}>
                                             {property.rent}
                                         </Typography>
                                         <Chip sx={{ color: "#3b85db", backgroundColor: "white" }} label={capitalize(property.propertyType)} variant="outlined" className="absolute top-3 right-2" />
                                         <Typography variant="body2" color="text.secondary" className="ml-6">
-                                            {readmore ? property?.description?.substring(0, 50) : property?.description}
-                                            <span className="text-[#3b85db] ml-1 cursor-pointer" onClick={() => toggleReadMore(property._id)}>
-                                                {readmore ? "read more" : "read less"}
-                                            </span>
+                                            {readMore[property?._id]
+                                                ? property?.description
+                                                : property?.description?.substring(0, 50)}
+                                            {property?.description?.length > 50 && (
+                                                <span
+                                                    className="text-[#3b85db] ml-1 cursor-pointer"
+                                                    onClick={() => toggleReadMore(property._id)}
+                                                >
+                                                    {readMore[property?._id] ? " Show Less" : " Show More"}
+                                                </span>
+                                            )}
                                         </Typography>
                                         <div
                                             className="flex justify-between items-center mt-6"
@@ -315,7 +323,99 @@ const Listing = () => {
                             </Card>
                         ))
                     }
-                </div>
+                </div> */}
+                {filteredData?.length ?
+                    <div className="grid grid-cols-3 gap-5 ">
+                        {
+                            filteredData?.map((property) => (
+                                <Card key={property?._id} className="hover:shadow-lg transition duration-150 ease-in-out relative"
+                                    header={{
+                                        content: <div className="rounded-tl-xl rounded-tr-xl overflow-hidden">
+                                            <img src={property?.propertyImage} alt={property?.propertyName} className="h-52 w-full object-cover" />
+                                        </div>,
+                                        bordered: false,
+                                        className: 'p-0',
+                                    }}
+                                    footer={{
+                                        content: <div
+                                            className="flex justify-between items-center"
+                                        >
+                                            <Button
+                                                variant="solid"
+                                                size="sm"
+                                                type="button"
+                                                onClick={() => handleCheckout(property?._id)}
+                                                className="text-xs"
+                                            >
+                                                Checkout
+                                            </Button>
+                                            <Button
+                                                variant="default"
+                                                size="sm"
+                                                className="text-xs"
+                                                onClick={() => handleWishListToggle(property?._id)}
+                                            >
+                                                {isInWishlist(property?._id) ? "Remove From Wishlist" : "Add To Wishlist"}
+                                            </Button>
+                                        </div>,
+                                        bordered: false,
+                                    }}
+                                >
+                                    <div className="flex justify-between items-center gap-2">
+                                        <span
+                                            className="text-emerald-600 font-semibold"
+                                            onClick={() => handleCheckout(property?._id)}
+                                        >
+                                            {property?.propertyName?.length > 13
+                                                ? capitalize(property?.propertyName.substring(0, 13) + "...")
+                                                : capitalize(property?.propertyName)
+                                            }
+                                        </span>
+                                        <div
+                                            className="flex gap-2"
+                                        >
+                                            <span
+                                                className="cursor-pointer p-2 rounded-full hover:bg-gray-200 hover:text-blue-700 transition-all duration-200"
+                                                onClick={() => { handleEditClick(property?._id) }}
+                                            >
+                                                <MdEdit size={18} />
+                                            </span>
+                                            <span
+                                                className="cursor-pointer p-2 rounded-full hover:bg-gray-200 hover:text-error transition-all duration-200"
+                                                onClick={() => { handleDialogOpen(property?._id) }}
+                                            >
+                                                <MdDelete size={18} />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <h4 className="font-bold my-3">{capitalize(property?.location)}</h4>
+                                    <div className="my-3">{property.rent}</div>
+                                    <Tag className="text-emerald-600 bg-white border-0 rounded absolute top-3 right-2">
+                                        {capitalize(property?.propertyType)}
+                                    </Tag>
+                                    <p>
+                                        {readMore[property?._id]
+                                            ? property?.description
+                                            : property?.description?.substring(0, 50)}
+                                        {property?.description?.length > 50 && (
+                                            <span
+                                                className="text-primary ml-1 cursor-pointer"
+                                                onClick={() => toggleReadMore(property._id)}
+                                            >
+                                                {readMore[property?._id] ? " Show Less" : " Show More"}
+                                            </span>
+                                        )}
+                                    </p>
+                                </Card>
+                            ))
+                        }
+                    </div>
+                    :
+                    <div className="flex flex-col gap-5 items-center justify-center w-full">
+                        <img src={noData} alt="" className="h-[200px]" />
+                        No Data Found
+                    </div>
+                }
                 <ConfirmDialog
                     isOpen={dialogOpen}
                     type="danger"

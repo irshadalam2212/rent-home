@@ -1,5 +1,6 @@
-import { Box, Button, CardContent, CardMedia, Typography } from "@mui/material"
+import { Box, CardContent, CardMedia, Typography } from "@mui/material"
 import HeroImg from "../../../assets/hero.png"
+import { Button } from "../../../components/ui"
 
 const HeroSection = () => {
     const handleExploreButton = () => {
@@ -15,7 +16,7 @@ const HeroSection = () => {
                 <Box sx={{ display: 'flex' }}>
                     <CardContent className="flex flex-col items-start justify-center gap-5">
                         <Typography component="div" variant="h5"
-                            sx={{ color: "#3b85db", fontWeight: "500", fontSize: "36px" }}
+                            sx={{ color: "#2A85FF", fontWeight: "500", fontSize: "36px" }}
                         >
                             Find Co-living spaces
                         </Typography>
@@ -27,8 +28,8 @@ const HeroSection = () => {
                             Homes, Shops,  Offices and Lands — All in One Place
                         </Typography>
                         <Button
-                            variant="contained"
-                            size="medium"
+                            variant="solid"
+                            size="sm"
                             onClick={() => handleExploreButton()}
                         >
                             Explore Listing
