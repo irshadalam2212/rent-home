@@ -43,9 +43,9 @@ const DualRangeSlider = ({ min, max, onChange }: DualRangeSliderProps) => {
     }, [maxVal, getPercent]);
 
     // Get min and max values when their state changes
-    useEffect(() => {
-        onChange({ min: minVal, max: maxVal });
-    }, [minVal, maxVal, onChange]);
+    // useEffect(() => {
+    //     onChange({ min: minVal, max: maxVal });
+    // }, [minVal, maxVal, onChange]);
 
     return (
         <div className="container">
@@ -58,6 +58,7 @@ const DualRangeSlider = ({ min, max, onChange }: DualRangeSliderProps) => {
                     const value = Math.min(Number(event.target.value), maxVal - 1);
                     setMinVal(value);
                     minValRef.current = value;
+                    onChange({ min: value, max: maxVal });
                 }}
                 className="thumb thumb--left"
                 // style={{ zIndex: minVal > max - 100 ? 5 : 0 }}
@@ -71,6 +72,7 @@ const DualRangeSlider = ({ min, max, onChange }: DualRangeSliderProps) => {
                     const value = Math.max(Number(event.target.value), minVal + 1);
                     setMaxVal(value);
                     maxValRef.current = value;
+                    onChange({ min: minVal, max: value });
                 }}
                 className="thumb thumb--right"
             />
