@@ -11,14 +11,14 @@ const HeroSection = () => {
     }
 
     return (
-        <div className="bg-[url('/background.svg')] h-screen flex items-center justify-center px-6">
+        <div className="h-screen flex items-center justify-center px-6">
             <div className="flex items-center justify-between">
                 <Box sx={{ display: 'flex' }}>
                     <CardContent className="flex flex-col items-start justify-center gap-5">
                         <Typography component="div" variant="h5"
                             sx={{ color: "#2A85FF", fontWeight: "500", fontSize: "36px" }}
                         >
-                            Find Co-living spaces
+                            Find co-living spaces
                         </Typography>
                         <Typography
                             variant="subtitle1"

@@ -1,9 +1,11 @@
-import { Button, TextField } from "@mui/material"
+
 import { Controller, useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
 import { usePostFetchUser } from "../hooks/login.queries"
 import { IFetchUserPayload } from "../models/login.interface"
 import Loader from "../../../components/shared/loader"
+import { Button, Input } from "../../../components/ui"
+
 
 
 const Login = () => {
@@ -33,22 +35,22 @@ const Login = () => {
     }
 
     return (
-        <div className="flex items-center justify-center h-screen w-full bg-[url('/background.svg')]">
-            <div className="flex flex-col gap-3 w-[450px] h-[420px] bg-[#f0eeee] px-6 py-8">
-                <h1 className="text-4xl text-[#3B85DB] text-center cursor-pointer">Rent<span className="text-[#AEAEB5]">.live</span></h1>
-                <h3 className="text-xl text-center">Sign In</h3>
+        <div className="flex items-center justify-center h-screen w-full">
+            <div className="flex flex-col gap-3 w-[450px] h-[420px] bg-gray-200 px-6 py-8 rounded-xl">
+                <h1 className="text-4xl text-primary text-center">Rent<span className="text-gray-400">.live</span></h1>
+                <h3 className="text-xl text-center text-gray-600">Sign In</h3>
                 <form onSubmit={handleSubmit(onSignIn)}>
                     <div className="flex flex-col gap-4 my-4">
                         <Controller
                             name="email"
                             control={control}
                             render={({ field }) =>
-                                <TextField
+                                <Input
                                     {...field}
                                     required
                                     id="outlined-required"
-                                    label="Email"
-                                    size="small"
+                                    placeholder="Email"
+                                    size="sm"
                                     autoComplete="off"
                                 />
                             }
@@ -57,13 +59,13 @@ const Login = () => {
                             name="password"
                             control={control}
                             render={({ field }) =>
-                                <TextField
+                                <Input
                                     {...field}
                                     required
-                                    id="outlined-password-input"
-                                    label="Password"
                                     type="password"
-                                    size="small"
+                                    id="outlined-password-input"
+                                    placeholder="Password"
+                                    size="sm"
                                     autoComplete="off"
                                 />
                             }
@@ -71,8 +73,9 @@ const Login = () => {
 
                     </div>
                     <Button
-                        variant="contained"
+                        variant="solid"
                         type="submit"
+                        size="sm"
                         disabled={PostFetchUserIsLoading}
                     >
                         Sign In

@@ -18,19 +18,13 @@ const Navbar = () => {
     const wishlistCount = wishlist?.length
 
     return (
-        <div className="flex justify-between items-center py-3 bg-white">
+        <div className="flex justify-between items-center py-3">
             <h1
                 className="text-xl text-primary cursor-pointer"
                 onClick={() => navigate('/home')}
             >
                 Urban<span className="text-gray-400">Lease</span>
             </h1>
-            {/* <img
-                src="/client/public/logo.jpg"
-                alt="Urbanlease Logo"
-                className="w-32 cursor-pointer"
-                onClick={() => navigate('/home')}
-            /> */}
             <div className='flex gap-8 items-center text-primary cursor-pointer hover:text-primary-deep'>
                 <span
                     className="uppercase"
@@ -49,7 +43,7 @@ const Navbar = () => {
                     )
                 }
                 {
-                    token && (
+                    // token && (
                         <div
                             className="uppercase relative text-primary cursor-pointer hover:text-primary-deep"
                             onClick={() => navigate("/wishlist")}
@@ -57,7 +51,7 @@ const Navbar = () => {
                             <FaHeart size={20} />
                             <span className='absolute -top-2 left-5'>{wishlistCount}</span>
                         </div>
-                    )
+                    // )
                 }
                 {
                     !token &&

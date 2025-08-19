@@ -1,6 +1,5 @@
 import Footer from "../components/layout/footer"
 import HeroSection from "../modules/home/components/hero"
-import Navbar from "../components/layout/navbar"
 import Listing from "../modules/home/components/listing"
 import Trendings from "../modules/home/components/trending"
 
@@ -8,7 +7,7 @@ import Trendings from "../modules/home/components/trending"
 const Home = () => {
     return (
         <div>
-            <Navbar />
+            {/* <Navbar /> */}
             <HeroSection />
             <Listing />
             <Trendings />
