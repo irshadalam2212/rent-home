@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import "./dualRangeSlider.css";
+import { formatPrice } from "../../../utils/formatprice";
 
 type DualRangeSliderProps = {
     min: number
@@ -80,8 +81,8 @@ const DualRangeSlider = ({ min, max, onChange }: DualRangeSliderProps) => {
             <div className="slider">
                 <div className="slider__track" />
                 <div ref={range} className="slider__range" />
-                <div className="slider__left-value">{minVal}</div>
-                <div className="slider__right-value">{maxVal}</div>
+                <div className="slider__left-value">{formatPrice(minVal)}</div>
+                <div className="slider__right-value">{formatPrice(maxVal)}</div>
             </div>
         </div>
     );

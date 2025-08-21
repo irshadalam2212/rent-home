@@ -11,6 +11,7 @@ import { capitalize } from "../../../utils/capitalize"
 import { useWishListStore } from "../../../store/wishlist.store"
 import DualRangeSlider from "../../../components/ui/DualRangeSlider/DualRangeSlider"
 import noData from "/public/9264822.jpg"
+import { formatPrice } from "../../../utils/formatprice"
 
 const Listing = () => {
     const navigate = useNavigate()
@@ -388,12 +389,12 @@ const Listing = () => {
                                             </span>
                                         </div>
                                     </div>
-                                    <h4 className="font-bold my-3">{capitalize(property?.location)}</h4>
-                                    <div className="my-3">{property.rent}</div>
+                                    <h4 className="font-bold my-3 text-gray-700">{capitalize(property?.location)}</h4>
+                                    <div className="my-3 text-gray-600">{formatPrice(property.rent)}</div>
                                     <Tag className="text-emerald-600 bg-white border-0 rounded absolute top-3 right-2">
                                         {capitalize(property?.propertyType)}
                                     </Tag>
-                                    <p>
+                                    <p className="text-gray-700">
                                         {readMore[property?._id]
                                             ? property?.description
                                             : property?.description?.substring(0, 50)}

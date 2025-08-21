@@ -1,8 +1,10 @@
-import { Button, TextField } from "@mui/material"
+
 import { Controller, useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
 import { useRegisteruser } from "../hooks/signup.queries"
 import { IPostUserPayload } from "../models/signup.interface"
+import { Button, Input } from "../../../components/ui"
+import PasswordInput from "../../../components/ui/Input/passwordinput"
 
 
 const SignUp = () => {
@@ -31,21 +33,21 @@ const SignUp = () => {
 
     return (
         <div className="flex items-center justify-center h-screen w-full">
-            <div className="flex flex-col gap-3 w-[450px] h-[420px] bg-[#f0eeee] px-6 py-8">
-                <h1 className="text-4xl text-[#3B85DB] text-center cursor-pointer">Rent<span className="text-[#AEAEB5]">.live</span></h1>
-                <h3 className="text-xl text-center">Sign Up</h3>
+            <div className="flex flex-col gap-3 w-[450px] h-[420px] bg-gray-200 px-6 py-8 rounded-xl">
+                <h1 className="text-4xl text-primary text-center">Urban<span className="text-gray-400">Lease</span></h1>
+                <h3 className="text-xl text-center text-gray-600">Sign Up</h3>
                 <form onSubmit={handleSubmit(registerUser)}>
                     <div className="flex flex-col gap-4 my-4">
                         <Controller
                             name="name"
                             control={control}
                             render={({ field }) =>
-                                <TextField
+                                <Input
                                     {...field}
                                     required
                                     id="outlined-required"
-                                    label="Name"
-                                    size="small"
+                                    placeholder="Name"
+                                    size="sm"
                                     autoComplete="off"
                                 />
                             }
@@ -54,13 +56,13 @@ const SignUp = () => {
                             name="email"
                             control={control}
                             render={({ field }) =>
-                                <TextField
+                                <Input
                                     {...field}
                                     required
                                     id="outlined-required"
-                                    label="Email"
+                                    placeholder="Email"
                                     type="email"
-                                    size="small"
+                                    size="sm"
                                     autoComplete="off"
                                 />
                             }
@@ -69,13 +71,13 @@ const SignUp = () => {
                             name="password"
                             control={control}
                             render={({ field }) =>
-                                <TextField
+                                <PasswordInput
                                     {...field}
                                     required
                                     id="outlined-password-input"
-                                    label="Password"
-                                    type="password"
-                                    size="small"
+                                    placeholder="Password"
+                                    type="text"
+                                    size="sm"
                                     autoComplete="off"
                                 />
                             }
@@ -83,13 +85,13 @@ const SignUp = () => {
 
 
                     </div>
-                    <Button variant="contained" disabled={RegisterUserIsLoading} type="submit">Sign Up</Button>
+                    <Button variant="solid" disabled={RegisterUserIsLoading} type="submit">Sign Up</Button>
                 </form>
                 {/* <Button variant="outlined" onClick={() => navigate("/login")}>Sign In</Button> */}
                 <p>Already have an account? {" "}
                     <Link
                         to="/login"
-                        className="text-[#3B85DB]"
+                        className="text-primary"
                     >Sign In</Link>
                 </p>
             </div>

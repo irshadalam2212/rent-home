@@ -5,6 +5,7 @@ import { usePostFetchUser } from "../hooks/login.queries"
 import { IFetchUserPayload } from "../models/login.interface"
 import Loader from "../../../components/shared/loader"
 import { Button, Input } from "../../../components/ui"
+import PasswordInput from "../../../components/ui/Input/passwordinput"
 
 
 
@@ -37,7 +38,7 @@ const Login = () => {
     return (
         <div className="flex items-center justify-center h-screen w-full">
             <div className="flex flex-col gap-3 w-[450px] h-[420px] bg-gray-200 px-6 py-8 rounded-xl">
-                <h1 className="text-4xl text-primary text-center">Rent<span className="text-gray-400">.live</span></h1>
+                <h1 className="text-4xl text-primary text-center">Urban<span className="text-gray-400">Lease</span></h1>
                 <h3 className="text-xl text-center text-gray-600">Sign In</h3>
                 <form onSubmit={handleSubmit(onSignIn)}>
                     <div className="flex flex-col gap-4 my-4">
@@ -59,10 +60,10 @@ const Login = () => {
                             name="password"
                             control={control}
                             render={({ field }) =>
-                                <Input
+                                <PasswordInput
                                     {...field}
                                     required
-                                    type="password"
+                                    type="text"
                                     id="outlined-password-input"
                                     placeholder="Password"
                                     size="sm"

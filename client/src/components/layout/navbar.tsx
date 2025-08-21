@@ -18,7 +18,7 @@ const Navbar = () => {
     const wishlistCount = wishlist?.length
 
     return (
-        <div className="flex justify-between items-center py-3">
+        <div className="flex justify-between items-center py-3 sticky top-0 z-50 bg-gray-50 px-8">
             <h1
                 className="text-xl text-primary cursor-pointer"
                 onClick={() => navigate('/home')}
