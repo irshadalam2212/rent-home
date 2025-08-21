@@ -48,52 +48,6 @@ const Addlisting = () => {
         }
     }, [PropertyData])
 
-
-    // const handleCreateProperty = async (value: IGetPropertyValue) => {
-    //     // console.log(value, "Value")
-    //     const formData = new FormData();
-    //     formData.append("propertyName", value.propertyName ?? "");
-    //     formData.append("rooms", value.rooms?.toString() ?? "");
-    //     formData.append("rent", value.rent?.toString() ?? "");
-    //     formData.append("propertyType", value.propertyType ?? "");
-    //     formData.append("location", value.location ?? "");
-    //     formData.append("description", value.description ?? "");
-    //     formData.append("propertyImage", value.propertyImage?.[0]);
-
-
-    //     // {I have not craeted the payload for updation because the payload for add and update is same i am extracting id from the params }
-    //     // const updatePropertyFormData = new FormData()
-    //     // updatePropertyFormData.append("propertyName", value.propertyName ?? "");
-    //     // updatePropertyFormData.append("rooms", value.rooms?.toString() ?? "");
-    //     // updatePropertyFormData.append("rent", value.rent?.toString() ?? "");
-    //     // updatePropertyFormData.append("propertyType", value.propertyType ?? "");
-    //     // updatePropertyFormData.append("location", value.location ?? "");
-    //     // updatePropertyFormData.append("description", value.description ?? "");
-    //     // updatePropertyFormData.append("propertyImage", value.propertyImage?.[0]);
-
-    //     try {
-    //         const response = await encodedId ? UpdateProperty(formData) : PostProperty(formData);
-    //         toast.push(
-    //             <Notification type="success" duration={3000}>
-    //                 {response?.message}
-    //             </Notification>,
-    //             {
-    //                 placement: "top-end"
-    //             }
-    //         )
-    //     } catch (error: any) {
-    //         console.log("Upload error:", error);
-    //         toast.push(
-    //             <Notification type="danger" duration={3000}>
-    //                 {error?.message}
-    //             </Notification>,
-    //             {
-    //                 placement: 'top-end',
-    //             },
-    //         )
-    //     }
-    // };
-
     const handleCreateProperty = async (value: IGetPropertyValue) => {
         const formData = new FormData();
 
@@ -135,7 +89,7 @@ const Addlisting = () => {
     };
 
     return (
-        <div className="flex items-center justify-center w-full bg-[url('/background.svg')]">
+        <div className="flex items-center justify-center w-full">
             <div className="flex flex-col gap-3 w-[750px] px-4 py-6">
                 <Heading>List a space</Heading>
                 <Form onSubmit={handleSubmit(handleCreateProperty)} >

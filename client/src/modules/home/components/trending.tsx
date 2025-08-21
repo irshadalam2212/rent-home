@@ -36,7 +36,7 @@ const Trendings = () => {
                     ))
                 }
             </div>
-            <div className="bg-[#3B85DB] bg bg-[url('/background.svg')] h-96 z-0 flex flex-col items-center justify-center gap-5">
+            <div className="bg-primary bg bg-[url('/background.svg')] h-96 z-0 flex flex-col items-center justify-center gap-5">
                 <h1 className="text-4xl font-semibold text-white">Stay Updated</h1>
                 <Input
                     className="w-[400px]"

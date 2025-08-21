@@ -1,9 +1,6 @@
-import { Navigate } from "react-router-dom"
-// import { constants } from "../models/constants"
-import MasterLayout from "../layout/masterlayout"
+import { Navigate, Outlet } from "react-router-dom"
 
 const Privateroutes = () => {
-    // const { TOKEN } = constants
     const isAuthenticated = localStorage.getItem("token")
     if (!isAuthenticated) {
         return <Navigate to="/login" replace />
@@ -11,7 +8,7 @@ const Privateroutes = () => {
 
     return (
         <>
-            <MasterLayout />
+            <Outlet />
         </>
     )
 }

@@ -7,7 +7,6 @@ import Trendings from "../modules/home/components/trending"
 const Home = () => {
     return (
         <div>
-            {/* <Navbar /> */}
             <HeroSection />
             <Listing />
             <Trendings />
