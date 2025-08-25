@@ -83,15 +83,34 @@ const login = asyncHandler(async (req, res) => {
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
-    const options = {
+    const accessTokenExpiry = parseInt(process.env.ACCESS_TOKEN_EXPIRY) * 24 * 60 * 60 * 1000; // convert "1d" to ms
+    const refreshTokenExpiry = parseInt(process.env.REFRESH_TOKEN_EXPIRY) * 24 * 60 * 60 * 1000;
+
+    // const options = {
+    //     httpOnly: true,
+    //     secure: true,
+    //     sameSite: "strict",
+    //     maxAge: accessTokenExpiry
+    // }
+
+    const accessTokenOptions = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: "strict",
+        maxAge: accessTokenExpiry
+    }
+
+    const refreshTokenOptions = {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: refreshTokenExpiry
     }
 
     return res
         .status(200)
-        .cookie("accessToken", accessToken, options)
-        .cookie("refreshToken", refreshToken, options)
+        .cookie("accessToken", accessToken, accessTokenOptions)
+        .cookie("refreshToken", refreshToken, refreshTokenOptions)
         .json(
             new ApiResponse(
                 200,
@@ -103,6 +122,18 @@ const login = asyncHandler(async (req, res) => {
         )
 
 })
+
+const logout = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    await User.findByIdAndUpdate(userId, { $unset: { refreshToken: 1 } });
+
+    res
+        .clearCookie("accessToken", { httpOnly: true, secure: true })
+        .clearCookie("refreshToken", { httpOnly: true, secure: true })
+        .status(200)
+        .json(new ApiResponse(200, {}, "Logged out successfully"));
+});
+
 
 const getAllUser = asyncHandler(async (req, res) => {
     try {

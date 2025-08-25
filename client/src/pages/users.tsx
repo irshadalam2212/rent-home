@@ -1,5 +1,5 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { Dropdown } from "../components/ui";
+import { Card, Dropdown } from "../components/ui";
 import { useNavigate } from "react-router-dom";
 import { useGetAllUsers } from "../modules/users/hooks/user.hooks";
 import capitalize from "../components/ui/utils/capitalize";
@@ -18,7 +18,7 @@ const Users = () => {
                 (!GetAllUserIsLoading && GetAllUser?.data?.length) && (
                     <div className="w-full grid md:grid-cols-3 grid-cols-1 gap-3 ">
                         {GetAllUser?.data?.map((user, index) => (
-                            <div key={index} className="p-4 border rounded-2xl relative ">
+                            <Card clickable key={index} className="relative hover:shadow-lg transition duration-150 ease-in-out">
                                 <span className="block">Name: {capitalize(user?.name) ?? "-"}</span>
                                 <span className="block">Email: {user.email ?? "-"}</span>
                                 {/* <span className="block">Username: {user.}</span> */}
@@ -40,7 +40,7 @@ const Users = () => {
                                         <Dropdown.Item >Delete</Dropdown.Item>
                                     </Dropdown>
                                 </div>
-                            </div>
+                            </Card>
                         ))}
                     </div>
                 )
