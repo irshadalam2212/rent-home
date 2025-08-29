@@ -1,5 +1,9 @@
 {
-  "compilerOptions": {
+  "compilerOptions": {"moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "types": ["vite/client"]
   },
   "files": [],
