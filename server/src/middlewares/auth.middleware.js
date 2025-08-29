@@ -34,11 +34,9 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
 export const checkRole = (...allowedRoles) => {
     return (req, res, next) => {
         // assuming you extract from jwt
-        const userRole = req.user.role
+        const userRole = req?.user?.role
         if (!allowedRoles.includes(userRole)) {
-            return res.status(403).json({
-                message: "Access denied"
-            })
+            return res.status(403).json(new ApiResponse(403, "Access denied: insufficient permissions"));
         }
         next()
     }

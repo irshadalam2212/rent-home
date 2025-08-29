@@ -10,6 +10,7 @@ export interface IFetchUserResponse {
             _id: string;
             name: string;
             email: string;
+            userRole: string;
             createdAt: string;
             updatedAt: string;
             __v: number;
