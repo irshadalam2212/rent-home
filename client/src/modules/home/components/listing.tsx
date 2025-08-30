@@ -10,7 +10,7 @@ import { useMemo, useState } from "react"
 import { capitalize } from "../../../utils/capitalize"
 import { useWishListStore } from "../../../store/wishlist.store"
 import DualRangeSlider from "../../../components/ui/DualRangeSlider/DualRangeSlider"
-import noData from "/public/9264822.jpg"
+import noData from "/9264822.jpg"
 import { formatPrice } from "../../../utils/formatprice"
 
 const Listing = () => {

@@ -1,7 +1,7 @@
 import { FaHeart } from "react-icons/fa"
 import { Avatar, Card } from "../components/ui"
 import { useWishListStore } from "../store/wishlist.store"
-import noData from "/public/9264822.jpg"
+import noData from "/9264822.jpg"
 
 export const Wishlist = () => {
     const { wishlist, removeFromWishlist } = useWishListStore()
